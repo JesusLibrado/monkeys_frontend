@@ -11,7 +11,7 @@ const DashboardPage = () => {
     <>
       <Stat />
       <Row>
-        <Col xxl={4} xl={6}>
+        <Col xxl={6} xl={12} lg={12} md={12}>
           <Estaciones />
         </Col>
       </Row>
