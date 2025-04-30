@@ -17,7 +17,7 @@ const EstacionTab = (props: {
 }) => {
 
     const [facturaData, setFactura] = React.useState(facturasMockInput.filter((factura)=>factura.estacionId == props.id)[0]);
-    const [agregarConceptoClicked, setAgregarConcepto] = React.useState(false);
+    const [agregarConceptoClicked, setAgregarConcepto] = React.useState(false||facturaData?.total==0);
 
     function toggleAgregarConceptoButton(event: any) {
         event.preventDefault();

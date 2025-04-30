@@ -15,7 +15,7 @@ const ConceptosFacturaTable = (props: {
 
     if(conceptosFacturaData.length < 1) {
         return (
-            <h4>No hay información para mostrar, agrega servicios o productos a este evento</h4>
+            <h4>No hay información para mostrar. Debes agregar servicios o productos a este evento</h4>
         );
     }
 

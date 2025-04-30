@@ -16,7 +16,7 @@ const AgregarConceptosFactura = (props: {
         <Card>
             <CardBody>
                 <div className="d-flex align-items-start justify-content-between">
-                    <h5>Agregar productos o servicios</h5>
+                    <h5></h5>
                     <div className='text-end'>
                         <button 
                             type="button" 
