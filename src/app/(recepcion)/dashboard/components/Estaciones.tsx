@@ -18,7 +18,7 @@ const Estaciones = () => {
       description={<>Verifica y administra el estatus de cada estación</>}
     >
         <TabContainer defaultActiveKey={estacionesData[0].id}>
-            <Nav role="tablist" className="nav-tabs nav-justified nav-bordered nav-bordered-danger mb-3">
+            <Nav role="tablist" className="nav-tabs nav-justified nav-bordered nav-bordered-secondary mb-3">
             {(estacionesData || []).map((tab, idx) => {
                 return (
                 <NavItem as="li" role="presentation" key={idx}>
@@ -35,7 +35,7 @@ const Estaciones = () => {
                 return (
                 <TabPane eventKey={tab.id} id={tab.id} key={idx}>
                   <Row>
-                    <EstacionTab id={tab.id} nombreEmpleado={tab.empleado.nombre} numero={tab.numero} />
+                    <EstacionTab estacionId={tab.id} nombreEmpleado={tab.empleado.nombre} numero={tab.numero} />
                   </Row>
                 </TabPane>
                 )

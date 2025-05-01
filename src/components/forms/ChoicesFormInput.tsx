@@ -39,7 +39,7 @@ const ChoicesFormInput = ({ children, multiple, className, onChange, allowInput,
   return allowInput ? (
     <input ref={choicesRef} multiple={multiple} className={className} {...props} />
   ) : (
-    <select ref={choicesRef} multiple={multiple} className={className} {...props}>
+    <select ref={choicesRef} multiple={multiple} className={className} {...props} >
       {children}
     </select>
   )

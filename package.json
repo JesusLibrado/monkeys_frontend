@@ -13,6 +13,7 @@
     "apexcharts": "^4.5.0",
     "bootstrap": "^5.3.5",
     "choices.js": "^11.1.0",
+    "formik": "^2.4.6",
     "gridjs-react": "^6.1.1",
     "jsvectormap": "^1.6.0",
     "lodash": "^4.17.21",

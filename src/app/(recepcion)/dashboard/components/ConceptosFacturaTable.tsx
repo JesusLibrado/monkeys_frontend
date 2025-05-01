@@ -7,15 +7,17 @@ import {conceptosFacturaMockInput} from '../data';
 import IconifyIcon from '@/components/wrappers/IconifyIcon';
 
 const ConceptosFacturaTable = (props: {
-    id: string,
+    facturaId: string,
     total: number
 }) => {
 
-    const [conceptosFacturaData, setConceptosFactura] = React.useState(conceptosFacturaMockInput.filter((cf)=>cf.facturaId == props.id).map(cp=>cp.conceptosFactura)[0]);
+    const [conceptosFacturaData, setConceptosFactura] = React.useState(conceptosFacturaMockInput.filter((cf)=>cf.facturaId == props.facturaId).map(cp=>cp.conceptosFactura)[0]);
 
-    if(conceptosFacturaData.length < 1) {
+    if(!conceptosFacturaData || conceptosFacturaData.length < 1) {
         return (
-            <h4>No hay información para mostrar. Debes agregar servicios o productos a este evento</h4>
+            <div className='mb-3'>
+                <h4>No hay información para mostrar. Debes agregar servicios o productos a este evento</h4>
+            </div>
         );
     }
 

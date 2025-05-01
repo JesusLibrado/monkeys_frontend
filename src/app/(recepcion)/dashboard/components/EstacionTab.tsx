@@ -11,12 +11,12 @@ import AgregarConceptosFactura from './AgregarConceptoFactura';
 
 
 const EstacionTab = (props: {
-    id: string,
+    estacionId: string,
     nombreEmpleado: string,
     numero: number
 }) => {
 
-    const [facturaData, setFactura] = React.useState(facturasMockInput.filter((factura)=>factura.estacionId == props.id)[0]);
+    const [facturaData, setFactura] = React.useState(facturasMockInput.filter((factura)=>factura.estacionId == props.estacionId)[0]);
     const [agregarConceptoClicked, setAgregarConcepto] = React.useState(false||facturaData?.total==0);
 
     function toggleAgregarConceptoButton(event: any) {
@@ -32,7 +32,7 @@ const EstacionTab = (props: {
         );
     }
 
-    const eventoHeader = () => (
+    const EventoHeader = () => (
         <>
             <div className="d-flex align-items-start justify-content-between mb-4">
                 <div>
@@ -42,23 +42,29 @@ const EstacionTab = (props: {
                     Evento actualizado hace 12 minutos
                 </div>
             </div>
-            <div className="mb-4">
-                <h5 className="fw-bold mb-2 fs-14"> Nombre del cliente: </h5>
-                <h6 className="fs-14 mb-2">{facturaData.evento.nombreCliente}</h6>
-                <br />
-                <h5 className="fw-bold fs-14"> Atendido por: </h5>
-                <h6 className="fs-14 mb-2">{props.nombreEmpleado}</h6>
+            <div className="d-flex align-items-start justify-content-between mb-4">
+                <div>
+                    <h5 className="fw-bold mb-2 fs-14"> Nombre del cliente: </h5>
+                    <h6 className="fs-14 mb-2">{facturaData.evento.nombreCliente}</h6>
+                </div>
+                <div>
+                    <h5 className="fw-bold mb-2 fs-14"> Atendido por: </h5>
+                    <h6 className="fs-14 mb-2">{props.nombreEmpleado}</h6>
+                </div>
             </div>
-            <div className='mb-4 d-flex flex-row-reverse gap-2'>
-                <button 
-                    type="button" 
-                    className={`btn ${agregarConceptoClicked?'btn-outline-secondary':'btn-ghost-secondary'}`}
-                    onClick={toggleAgregarConceptoButton}
-                >
-                    <IconifyIcon icon='tabler:circle-plus' className="me-1" />
-                    Agregar producto o servicio
-                </button>
-            </div>
+            {
+                (!agregarConceptoClicked)?
+                    <div className='mb-4 d-flex flex-row-reverse gap-2'>
+                        <button 
+                            type="button" 
+                            className={`btn btn-ghost-secondary`}
+                            onClick={toggleAgregarConceptoButton}
+                        >
+                            <IconifyIcon icon='tabler:circle-plus' className="me-1" />
+                            agregar producto o servicio
+                        </button>
+                    </div>:''
+            }
         </>
     )
 
@@ -66,10 +72,11 @@ const EstacionTab = (props: {
         <Col sm={12}>
             <Card className="shadow-none border">
                 <CardBody>
-                    {eventoHeader()}
+                    {EventoHeader()}
                     {(agregarConceptoClicked)?
                         <AgregarConceptosFactura facturaId={facturaData.id} onCloseClicked={toggleAgregarConceptoButton}/>:
-                        <ConceptosFacturaTable id={facturaData.id} total={facturaData.total}/>}
+                        <ConceptosFacturaTable facturaId={facturaData.id} total={facturaData.total}/>
+                    }
                     
                 </CardBody>
                 <div className="d-print-none mb-5">

@@ -26,7 +26,7 @@ export const estacionesMockInput = [
   {
     id: '4',
     numero: 4,
-    disponible: true,
+    disponible: false,
     empleado: {
       nombre: 'Mariana'
     }
@@ -49,11 +49,22 @@ export const facturasMockInput = [
   {
     id: '2',
     estacionId: '2',
-    folio: 23,
+    folio: 24,
     total: 0.0,
     estatus: "CREADA",
     evento: {
       nombreCliente: 'Luis',
+      estatus: "EN_PROGRESO"
+    }
+  },
+  {
+    id: '3',
+    estacionId: '4',
+    folio: 25,
+    total: 350.0,
+    estatus: "CREADA",
+    evento: {
+      nombreCliente: 'Salvador',
       estatus: "EN_PROGRESO"
     }
   }
@@ -84,7 +95,49 @@ export const conceptosFacturaMockInput = [
     ]
   },
   {
-    facturaId: '2',
-    conceptosFactura: []
+    facturaId: '3',
+    conceptosFactura: [
+      {
+        cantidad: 1,
+        total: 350.0,
+        servicio: {
+            nombre: 'Cotizacion Salvador',
+            categoria: 'GRECA',
+            precio: 350.0
+        }
+      }
+    ]
   }
+]
+
+export const productosMockInput = [
+  {
+    id: 'producto-1',
+    nombre: 'Gel p/cabello',
+    marca: 'Soavence',
+    cantidadDisponible: 10,
+    precioPublico: 30.0
+  },
+  {
+    id: 'producto-2',
+    nombre: 'Cera p/cabello',
+    marca: 'Soavence',
+    cantidadDisponible: 2,
+    precioPublico: 60.0
+  }
+]
+
+export const serviciosMockInput = [
+  {
+    id: 'servicio-1',
+    nombre: 'Desvanecido',
+    categoria: 'CORTE',
+    precio: 180.0
+  },
+  {
+    id: 'servicio-2',
+    nombre: 'Tijera',
+    categoria: 'CORTE',
+    precio: 150.0
+  },
 ]
