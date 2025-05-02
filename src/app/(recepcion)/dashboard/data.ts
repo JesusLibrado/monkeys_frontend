@@ -75,6 +75,7 @@ export const conceptosFacturaMockInput = [
     facturaId: '1',
     conceptosFactura: [
       {
+        id: 'concept-factura-1',
         cantidad: 2,
         total: 60.0,
         producto: {
@@ -84,6 +85,7 @@ export const conceptosFacturaMockInput = [
         }
       },
       {
+        id: 'concept-factura-2',
         cantidad: 1,
         total: 180.0,
         servicio: {
@@ -98,6 +100,7 @@ export const conceptosFacturaMockInput = [
     facturaId: '3',
     conceptosFactura: [
       {
+        id: 'concept-factura-3',
         cantidad: 1,
         total: 350.0,
         servicio: {
@@ -138,6 +141,24 @@ export const serviciosMockInput = [
     id: 'servicio-2',
     nombre: 'Tijera',
     categoria: 'CORTE',
+    precio: 150.0
+  },
+  {
+    id: 'servicio-3',
+    nombre: 'Afeitado plus',
+    categoria: 'BARBA',
+    precio: 150.0
+  },
+  {
+    id: 'servicio-4',
+    nombre: 'Bigote',
+    categoria: 'BARBA',
+    precio: 150.0
+  },
+  {
+    id: 'servicio-5',
+    nombre: 'Premium',
+    categoria: 'FACIAL',
     precio: 150.0
   },
 ]

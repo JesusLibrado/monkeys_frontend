@@ -4,11 +4,11 @@ import React, { useEffect } from 'react';
 import { Card, CardBody, Col, Row } from 'react-bootstrap';
 import ConceptosFacturaTable from './ConceptosFacturaTable';
 import IconifyIcon from '@/components/wrappers/IconifyIcon';
+import CrearConceptoFactura from './CrearConceptoFactura';
 
+// ************** HELPERS ***************
 
 import {facturasMockInput} from '../data';
-import AgregarConceptosFactura from './AgregarConceptoFactura';
-
 
 const EstacionTab = (props: {
     estacionId: string,
@@ -17,7 +17,7 @@ const EstacionTab = (props: {
 }) => {
 
     const [facturaData, setFactura] = React.useState(facturasMockInput.filter((factura)=>factura.estacionId == props.estacionId)[0]);
-    const [agregarConceptoClicked, setAgregarConcepto] = React.useState(false||facturaData?.total==0);
+    const [agregarConceptoClicked, setAgregarConcepto] = React.useState(false);
 
     function toggleAgregarConceptoButton(event: any) {
         event.preventDefault();
@@ -57,11 +57,11 @@ const EstacionTab = (props: {
                     <div className='mb-4 d-flex flex-row-reverse gap-2'>
                         <button 
                             type="button" 
-                            className={`btn btn-ghost-secondary`}
+                            className={`btn btn-ghost-info`}
                             onClick={toggleAgregarConceptoButton}
                         >
-                            <IconifyIcon icon='tabler:circle-plus' className="me-1" />
-                            agregar producto o servicio
+                            <IconifyIcon icon='tabler:circle-plus' className="me-1 fs-16" />
+                            cotizar greca u otro servicio
                         </button>
                     </div>:''
             }
@@ -74,8 +74,8 @@ const EstacionTab = (props: {
                 <CardBody>
                     {EventoHeader()}
                     {(agregarConceptoClicked)?
-                        <AgregarConceptosFactura facturaId={facturaData.id} onCloseClicked={toggleAgregarConceptoButton}/>:
-                        <ConceptosFacturaTable facturaId={facturaData.id} total={facturaData.total}/>
+                        <CrearConceptoFactura facturaId={facturaData.id} onCloseClicked={toggleAgregarConceptoButton}/>:
+                        <ConceptosFacturaTable facturaId={facturaData.id}/>
                     }
                     
                 </CardBody>

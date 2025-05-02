@@ -52,6 +52,9 @@ const AgregarConceptoFacturaForm = (props: { addConceptoFactura: any }) => {
     const [serviciosData, setServicios] = React.useState(serviciosByCategoria);
     const [productosData, setProductos] = React.useState(productosMockInput);
 
+    const [precio, setPrecio] = React.useState(0);
+    const disabledSubmitButton = () => getTotal(selectedConcepto) < 1 || selectedConcepto.cantidad < 1
+
     const [selectedConcepto, setSelectedConcepto ] = React.useState({
         servicio: {},
         producto: {},
@@ -59,16 +62,40 @@ const AgregarConceptoFacturaForm = (props: { addConceptoFactura: any }) => {
         total: 0
     });
 
-    const [precio, setPrecio] = React.useState(0);
-
     function handleSelectedConceptoChange(conceptoId: any) {
         let selected = findServicioOrProducto(conceptoId);
         setPrecio(getPrecio(selected));
-        setSelectedConcepto({
+        let newConcepto = {
             servicio: selected.servicio?selected.servicio:{},
             producto: selected.producto?selected.producto:{},
-            cantidad: selectedConcepto.cantidad==0?1:selectedConcepto.cantidad,
-            total: getTotal(selectedConcepto)
+            cantidad: selectedConcepto.cantidad,
+            total: 0
+        }
+        setSelectedConcepto({
+            ...newConcepto,
+            total: getTotal(newConcepto)
+        });
+    }
+
+    function handleCantidadConceptoChange(e: any) {
+        e.preventDefault();
+        let newConcepto = {
+            ...selectedConcepto,
+            cantidad: +e.target.value
+        }
+        setSelectedConcepto({
+            ...newConcepto,
+            total: getTotal(newConcepto)
+        });
+    }
+
+    function handleSubmit() {
+        props.addConceptoFactura(selectedConcepto);
+        setSelectedConcepto({
+            servicio: {},
+            producto: {},
+            cantidad: 1,
+            total: 0
         });
     }
 
@@ -76,34 +103,36 @@ const AgregarConceptoFacturaForm = (props: { addConceptoFactura: any }) => {
         <tr key='add-concepto-factura-row'> 
             <th scope="row"></th>
             <td className='text-start'>
-                <ChoicesFormInput 
-                    className="form-select" 
-                    id="choices-single-groups" 
-                    data-choices data-choices-groups 
-                    data-placeholder="Selecciona un producto o servicio"
-                    onChange={handleSelectedConceptoChange}
-                >
-                    {
-                        [...serviciosData].map(([categoriaServicio, servicios])=>(
-                            <optgroup label={categoriaServicio} key={categoriaServicio}>
-                                {
-                                    servicios.map(
-                                        (servicio: any)=>(
-                                            <option value={servicio.id} key={servicio.id}>{servicio.nombre}</option>
-                                        )
-                                    )
-                                }
-                            </optgroup>
-                        ))
-                    }
-                    <optgroup label={'PRODUCTOS'} key={'productos'}>
+                <div>
+                    <ChoicesFormInput
+                        className="form-select" 
+                        id="choices-single-groups" 
+                        data-choices data-choices-groups 
+                        data-placeholder="Selecciona un producto o servicio"
+                        onChange={handleSelectedConceptoChange}
+                    >
                         {
-                            productosData.map((producto)=>(
-                                <option value={producto.id} key={producto.id}>{producto.nombre} {producto.marca}</option>
+                            [...serviciosData].map(([categoriaServicio, servicios])=>(
+                                <optgroup label={categoriaServicio} key={categoriaServicio}>
+                                    {
+                                        servicios.map(
+                                            (servicio: any)=>(
+                                                <option value={servicio.id} key={servicio.id}>{servicio.nombre}</option>
+                                            )
+                                        )
+                                    }
+                                </optgroup>
                             ))
                         }
-                    </optgroup>
-                </ChoicesFormInput>
+                        <optgroup label={'PRODUCTOS'} key={'productos'}>
+                            {
+                                productosData.map((producto)=>(
+                                    <option value={producto.id} key={producto.id}>{producto.nombre} {producto.marca}</option>
+                                ))
+                            }
+                        </optgroup>
+                    </ChoicesFormInput>
+                </div>
             </td>
             <td>
                 <input
@@ -111,7 +140,7 @@ const AgregarConceptoFacturaForm = (props: { addConceptoFactura: any }) => {
                     type="number" 
                     name="cantidad"
                     min="0"
-                    onChange={(e)=>setSelectedConcepto({...selectedConcepto, cantidad: +e.target.value})}
+                    onChange={handleCantidadConceptoChange}
                     defaultValue={selectedConcepto.cantidad}
                 />
             </td>
@@ -119,38 +148,39 @@ const AgregarConceptoFacturaForm = (props: { addConceptoFactura: any }) => {
                 ${precio}
             </td>
             <td className='text-end'>
-                ${getTotal(selectedConcepto)}            
+                ${selectedConcepto.total}            
             </td>
             <td className='text-end'>
-                {
-                    (getTotal(selectedConcepto) > 1)?<button 
-                            className={`btn btn-ghost-primary rounded-pill btn-icon`}
-                            type="submit"
-                        >
-                            <IconifyIcon icon="ri:add-line" className="fs-15" /> 
-                        </button>:''
-                }
+                <button 
+                    className={`btn btn-ghost-primary rounded-pill btn-icon`}
+                    type="submit"
+                    disabled={disabledSubmitButton()}
+                    onClick={handleSubmit}
+                >
+                    <IconifyIcon icon="ri:add-line" className="fs-15" /> 
+                </button>
             </td>
         </tr>
     );
 }
 
 const ConceptosFacturaTable = (props: {
-    facturaId: string,
-    total: number
+    facturaId: string
 }) => {
 
     const [conceptosFacturaData, setConceptosFactura] = React.useState(
         conceptosFacturaMockInput.filter((cf)=>cf.facturaId == props.facturaId).map(cp=>cp.conceptosFactura)[0]
     );
 
-    if(!conceptosFacturaData || conceptosFacturaData.length < 1) {
-        return (
-            <div className='mb-3'>
-                <h4>No hay información para mostrar. Debes agregar servicios o productos a este evento</h4>
-            </div>
-        );
+    function addConceptoFactura(newCF: any) {
+        setConceptosFactura([...conceptosFacturaData, newCF])
     }
+
+    function removeConceptoFactura(conceptoId: string) {
+        setConceptosFactura(conceptosFacturaData.filter((cf)=>cf.id!=conceptoId));
+    }
+
+    const getTotalFactura = ()=> (conceptosFacturaData||[]).reduce((acc, current)=>{return current.total+acc}, 0)
 
     return (
         <div>
@@ -167,16 +197,20 @@ const ConceptosFacturaTable = (props: {
                     </tr>
                     </thead>
                     <tbody id="products-list">
-                        <AgregarConceptoFacturaForm addConceptoFactura={
-                            (newConceptoFactura: any)=>setConceptosFactura([...conceptosFacturaData, newConceptoFactura])
-                        }/>
+                        <AgregarConceptoFacturaForm addConceptoFactura={addConceptoFactura}/>
                         {
-                            conceptosFacturaData.map((concepto, idx) => {
-                                let producto = concepto.producto;
-                                let titulo = `${producto?producto.nombre:concepto.servicio?.nombre} ${producto?producto.marca:concepto.servicio?.categoria}`;
-                                let precio = producto?producto.precioPublico:concepto.servicio?.precio;
+                            (conceptosFacturaData||[]).map((concepto, idx) => {
+                                let titulo, precio;
+                                if(!concepto.producto || Object.keys(concepto.producto).length < 1){
+                                    titulo = `${concepto.servicio?.categoria} ${concepto.servicio?.nombre}`
+                                    precio = concepto.servicio?.precio
+                                } else {
+                                    titulo = `${concepto.producto?.nombre} ${concepto.producto?.marca}`
+                                    precio = concepto.producto.precioPublico;
+                                }
+
                                 return (
-                                    <tr key={idx}>
+                                    <tr key={concepto.id}>
                                         <th scope="row">0{idx + 1}</th>
                                         <td className="text-start">
                                             <div className="d-flex align-items-center gap-2">
@@ -187,7 +221,11 @@ const ConceptosFacturaTable = (props: {
                                         <td>${precio}</td>
                                         <td className="text-end">${concepto.total}</td>
                                         <td className="text-end">
-                                            <button type="button" className="btn flex-shrink-0 rounded-circle btn-icon btn-ghost-danger">
+                                            <button 
+                                                type="button" 
+                                                className="btn flex-shrink-0 rounded-circle btn-icon btn-ghost-danger"
+                                                onClick={(e)=>removeConceptoFactura(concepto.id)}
+                                            >
                                                 <IconifyIcon icon="solar:trash-bin-trash-bold-duotone" className="fs-20" />
                                             </button>
                                         </td>
@@ -203,7 +241,7 @@ const ConceptosFacturaTable = (props: {
                     <tbody>
                         <tr className="border-top border-top-dashed fs-16">
                             <td className="fw-bold">Total a pagar</td>
-                            <td className="fw-bold text-end">${props.total}</td>
+                            <td className="fw-bold text-end">${getTotalFactura()}</td>
                         </tr>
                     </tbody>
                 </table>
