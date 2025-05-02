@@ -51,7 +51,7 @@ const CrearConceptoFactura = (props: {
                                                 label: 'otro'
                                             },
                                         ]}
-                                    ></Select>
+                                    />
                                 </div>
                             </Col>
                             <Col md={3}>

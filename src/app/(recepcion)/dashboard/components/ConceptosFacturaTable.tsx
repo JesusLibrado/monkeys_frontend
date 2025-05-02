@@ -1,168 +1,12 @@
 'use client'
 
 import React, { useEffect } from 'react';
-import { Card, CardBody, Col, Row } from 'react-bootstrap';
-import { Formik } from 'formik';
 import IconifyIcon from '@/components/wrappers/IconifyIcon';
+import AgregarConceptoFactura from './AgregarConceptoFactura';
 
 // ************** HELPERS ***************
+import {conceptosFacturaMockInput} from '../data';
 
-import {conceptosFacturaMockInput, productosMockInput, serviciosMockInput} from '../data';
-import ChoicesFormInput from '@/components/forms/ChoicesFormInput';
-
-const serviciosByCategoria = serviciosMockInput.reduce((serviciosByCategoria, currentValue)=>{
-    let categoria = currentValue.categoria;
-    if(serviciosByCategoria.has(categoria)){
-        let currentAccumulated = serviciosByCategoria.get(categoria);
-        serviciosByCategoria.set(categoria, [...currentAccumulated, currentValue]);
-    } else  {
-        serviciosByCategoria.set(categoria, [currentValue]);
-    }
-
-    return serviciosByCategoria;
-}, new Map());
-
-const findServicioOrProducto = (conceptoId: string) => {
-    let servicio = serviciosMockInput.find((servicio)=>servicio.id == conceptoId);
-    let producto = productosMockInput.find((producto)=>producto.id == conceptoId);
-    if(servicio) return {servicio: servicio};
-    return {producto: producto};
-}
-
-const getTotal = (concepto: any) => {
-    if(Object.keys(concepto.servicio).length > 1)
-        return concepto.servicio.precio * concepto.cantidad
-    if(Object.keys(concepto.producto).length > 1)
-        return concepto.producto.precioPublico * concepto.cantidad
-    return 0;
-}
-
-const getPrecio = (concepto: any) => {
-    if(concepto.servicio)
-        return concepto.servicio.precio
-    if(concepto.producto)
-        return concepto.producto.precioPublico
-    else return 0;
-}; 
-
-// ************** AgregarConceptoFacturaForm ***************
-
-const AgregarConceptoFacturaForm = (props: { addConceptoFactura: any }) => {
-
-    const [serviciosData, setServicios] = React.useState(serviciosByCategoria);
-    const [productosData, setProductos] = React.useState(productosMockInput);
-
-    const [precio, setPrecio] = React.useState(0);
-    const disabledSubmitButton = () => getTotal(selectedConcepto) < 1 || selectedConcepto.cantidad < 1
-
-    const [selectedConcepto, setSelectedConcepto ] = React.useState({
-        servicio: {},
-        producto: {},
-        cantidad: 1,
-        total: 0
-    });
-
-    function handleSelectedConceptoChange(conceptoId: any) {
-        let selected = findServicioOrProducto(conceptoId);
-        setPrecio(getPrecio(selected));
-        let newConcepto = {
-            servicio: selected.servicio?selected.servicio:{},
-            producto: selected.producto?selected.producto:{},
-            cantidad: selectedConcepto.cantidad,
-            total: 0
-        }
-        setSelectedConcepto({
-            ...newConcepto,
-            total: getTotal(newConcepto)
-        });
-    }
-
-    function handleCantidadConceptoChange(e: any) {
-        e.preventDefault();
-        let newConcepto = {
-            ...selectedConcepto,
-            cantidad: +e.target.value
-        }
-        setSelectedConcepto({
-            ...newConcepto,
-            total: getTotal(newConcepto)
-        });
-    }
-
-    function handleSubmit() {
-        props.addConceptoFactura(selectedConcepto);
-        setSelectedConcepto({
-            servicio: {},
-            producto: {},
-            cantidad: 1,
-            total: 0
-        });
-    }
-
-    return (
-        <tr key='add-concepto-factura-row'> 
-            <th scope="row"></th>
-            <td className='text-start'>
-                <div>
-                    <ChoicesFormInput
-                        className="form-select" 
-                        id="choices-single-groups" 
-                        data-choices data-choices-groups 
-                        data-placeholder="Selecciona un producto o servicio"
-                        onChange={handleSelectedConceptoChange}
-                    >
-                        {
-                            [...serviciosData].map(([categoriaServicio, servicios])=>(
-                                <optgroup label={categoriaServicio} key={categoriaServicio}>
-                                    {
-                                        servicios.map(
-                                            (servicio: any)=>(
-                                                <option value={servicio.id} key={servicio.id}>{servicio.nombre}</option>
-                                            )
-                                        )
-                                    }
-                                </optgroup>
-                            ))
-                        }
-                        <optgroup label={'PRODUCTOS'} key={'productos'}>
-                            {
-                                productosData.map((producto)=>(
-                                    <option value={producto.id} key={producto.id}>{producto.nombre} {producto.marca}</option>
-                                ))
-                            }
-                        </optgroup>
-                    </ChoicesFormInput>
-                </div>
-            </td>
-            <td>
-                <input
-                    className="form-control"
-                    type="number" 
-                    name="cantidad"
-                    min="0"
-                    onChange={handleCantidadConceptoChange}
-                    defaultValue={selectedConcepto.cantidad}
-                />
-            </td>
-            <td>
-                ${precio}
-            </td>
-            <td className='text-end'>
-                ${selectedConcepto.total}            
-            </td>
-            <td className='text-end'>
-                <button 
-                    className={`btn btn-ghost-primary rounded-pill btn-icon`}
-                    type="submit"
-                    disabled={disabledSubmitButton()}
-                    onClick={handleSubmit}
-                >
-                    <IconifyIcon icon="ri:add-line" className="fs-15" /> 
-                </button>
-            </td>
-        </tr>
-    );
-}
 
 const ConceptosFacturaTable = (props: {
     facturaId: string
@@ -173,10 +17,10 @@ const ConceptosFacturaTable = (props: {
     );
 
     function addConceptoFactura(newCF: any) {
-        setConceptosFactura([...conceptosFacturaData, newCF])
+        setConceptosFactura([...conceptosFacturaData||[], newCF])
     }
 
-    function removeConceptoFactura(conceptoId: string) {
+    function removeConceptoFactura(conceptoId: any) {
         setConceptosFactura(conceptosFacturaData.filter((cf)=>cf.id!=conceptoId));
     }
 
@@ -197,7 +41,7 @@ const ConceptosFacturaTable = (props: {
                     </tr>
                     </thead>
                     <tbody id="products-list">
-                        <AgregarConceptoFacturaForm addConceptoFactura={addConceptoFactura}/>
+                        <AgregarConceptoFactura addConceptoFactura={addConceptoFactura}/>
                         {
                             (conceptosFacturaData||[]).map((concepto, idx) => {
                                 let titulo, precio;
@@ -224,7 +68,7 @@ const ConceptosFacturaTable = (props: {
                                             <button 
                                                 type="button" 
                                                 className="btn flex-shrink-0 rounded-circle btn-icon btn-ghost-danger"
-                                                onClick={(e)=>removeConceptoFactura(concepto.id)}
+                                                onClick={()=>removeConceptoFactura(concepto.id)}
                                             >
                                                 <IconifyIcon icon="solar:trash-bin-trash-bold-duotone" className="fs-20" />
                                             </button>
