@@ -9,11 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@apollo/client": "^3.13.8",
     "@hello-pangea/dnd": "^18.0.1",
     "apexcharts": "^4.5.0",
     "bootstrap": "^5.3.5",
     "choices.js": "^11.1.0",
     "formik": "^2.4.6",
+    "graphql": "^16.11.0",
     "gridjs-react": "^6.1.1",
     "jsvectormap": "^1.6.0",
     "lodash": "^4.17.21",

@@ -12,7 +12,10 @@ import {facturasMockInput} from '../data';
 
 const EstacionTab = (props: {
     estacionId: string,
-    nombreEmpleado: string,
+    empleado: {
+        id: string,
+        nombre: string
+    },
     numero: number
 }) => {
 
@@ -24,13 +27,27 @@ const EstacionTab = (props: {
         setAgregarConcepto(agregarConceptoClicked?false:true);
     }
 
-    if(!facturaData) {
+    if(props.empleado===null) {
         return (
             <div className="d-flex align-items-start justify-content-center mb-4">
-                <h4>No hay información para mostrar</h4>
+                <h4>Esta estación no tiene un barbero asociado. Solicite ayuda a su administrador</h4>
             </div>
         );
     }
+
+    if(!facturaData) {
+        return (
+            <div className="text-center mb-4">
+                <h5>Estación disponible, no hay evento en curso</h5>
+                <p className='mt-3'>
+                    <button type="button" className="btn btn-ghost-primary">
+                        Empezar evento
+                    </button>
+                </p>
+            </div>
+        );
+    }
+
 
     const EventoHeader = () => (
         <>
@@ -49,7 +66,7 @@ const EstacionTab = (props: {
                 </div>
                 <div>
                     <h5 className="fw-bold mb-2 fs-14"> Atendido por: </h5>
-                    <h6 className="fs-14 mb-2">{props.nombreEmpleado}</h6>
+                    <h6 className="fs-14 mb-2">{props.empleado.nombre}</h6>
                 </div>
             </div>
             {
@@ -69,28 +86,23 @@ const EstacionTab = (props: {
     )
 
     return (
-        <Col sm={12}>
-            <Card className="shadow-none border">
-                <CardBody>
-                    {EventoHeader()}
-                    {(agregarConceptoClicked)?
-                        <CrearConceptoFactura facturaId={facturaData.id} onCloseClicked={toggleAgregarConceptoButton}/>:
-                        <ConceptosFacturaTable facturaId={facturaData.id}/>
-                    }
-                    
-                </CardBody>
-                <div className="d-print-none mb-5">
-                    <div className="d-flex justify-content-center gap-2">
-                        <button type='button' className="btn btn-outline-danger">
-                            Cancelar evento
-                        </button>
-                        <button type='button' className={`btn btn-primary ${facturaData.total==0?'disabled':''}`}>
-                            Realizar pago
-                        </button>
-                    </div>
+        <div>
+            {EventoHeader()}
+            {(agregarConceptoClicked)?
+                <CrearConceptoFactura facturaId={facturaData.id} onCloseClicked={toggleAgregarConceptoButton}/>:
+                <ConceptosFacturaTable facturaId={facturaData.id}/>
+            }
+            <div className="d-print-none mb-5">
+                <div className="d-flex justify-content-center gap-2">
+                    <button type='button' className="btn btn-outline-danger">
+                        Cancelar evento
+                    </button>
+                    <button type='button' className={`btn btn-primary ${facturaData.total==0?'disabled':''}`}>
+                        Realizar pago
+                    </button>
                 </div>
-            </Card>
-        </Col>
+            </div>
+        </div>
     );
 }
 

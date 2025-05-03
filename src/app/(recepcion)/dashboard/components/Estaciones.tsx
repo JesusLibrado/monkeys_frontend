@@ -2,50 +2,107 @@
 
 import ComponentContainerCard from '@/components/ComponentContainerCard';
 import IconifyIcon from '@/components/wrappers/IconifyIcon';
-import React from 'react';
-import { Col, Nav, NavItem, NavLink, Row, TabContainer, TabContent, TabPane } from 'react-bootstrap';
+import React, { useEffect } from 'react';
+import { Card, CardBody, Col, Nav, NavItem, NavLink, Row, Spinner, TabContainer, TabContent, TabPane } from 'react-bootstrap';
 import EstacionTab from './EstacionTab';
 
-// ************** HELPERS ***************
+import { useQuery, gql } from '@apollo/client';
+import { toNameCase } from '@/helpers/strings';
 
-import {estacionesMockInput} from '../data';
+// ************** Gql queries ***********
+
+const GET_ESTACIONES = gql `
+  query Estaciones {
+    estaciones {
+      id
+      numero
+      disponible
+      empleado {
+        id
+        nombre
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`
 
 
 const Estaciones = () => {
 
-  const [estacionesData, setEstacionesData] = React.useState(estacionesMockInput);
+  const { loading, error, data } = useQuery(GET_ESTACIONES);
+  
+  const [estacionesData, setEstacionesData] = React.useState<any[]>([]);
+
+  useEffect(()=>{
+    if(data) {
+      let estaciones = data.estaciones;
+      setEstacionesData(estaciones);
+    }
+  }, [data]);
+
+  function activeTabClassName(estacion: any) {
+    if(!estacion.empleado){
+      return 'text-light';
+    }
+    if(estacion.disponible) {
+       return 'text-success';
+    } else {
+      return 'text-danger';
+    }
+  }
+
+  if(loading){
+    return (
+      <div className="d-flex justify-content-center">
+        <Spinner />
+      </div>
+    );
+  }
   
   return (
-    <ComponentContainerCard 
-      title='Información de Estaciones'
-      description={<>Verifica y administra el estatus de cada estación</>}
-    >
-        <TabContainer defaultActiveKey={estacionesData[0].id}>
-            <Nav role="tablist" className="nav-tabs nav-justified nav-bordered nav-bordered-secondary mb-3">
-            {(estacionesData || []).map((tab, idx) => {
-                return (
-                <NavItem as="li" role="presentation" key={idx}>
-                    <NavLink eventKey={tab.id}>
-                      <IconifyIcon icon="ri:circle-fill" className={`fs-18 me-1 ${tab.disponible?'text-success':'text-danger'}`} />
-                      {tab.empleado.nombre}
-                    </NavLink>
-                </NavItem>
-                )
-            })}
-            </Nav>
-            <TabContent>
-            {(estacionesData || []).map((tab, idx) => {
-                return (
-                <TabPane eventKey={tab.id} id={tab.id} key={idx}>
-                  <Row>
-                    <EstacionTab estacionId={tab.id} nombreEmpleado={tab.empleado.nombre} numero={tab.numero} />
-                  </Row>
-                </TabPane>
-                )
-            })}
-            </TabContent>
-        </TabContainer>
-    </ComponentContainerCard>
+    <TabContainer defaultActiveKey={0}>
+      <Nav role="tablist" className="nav-tabs nav-justified nav-bordered nav-bordered-secondary mb-3">
+      {(estacionesData || []).map((estacion, idx) => {
+          let tabName = `Estación ${estacion.numero}`;
+          if(estacion.empleado){
+            tabName = toNameCase(estacion.empleado.nombre)
+          }
+          return (
+          <NavItem as="li" role="presentation" key={idx}>
+              <NavLink eventKey={idx}>
+                <IconifyIcon 
+                  icon="ri:circle-fill" 
+                  className={`fs-18 me-1 ${activeTabClassName(estacion)}`} 
+                />
+                {tabName}
+              </NavLink>
+          </NavItem>
+          )
+      })}
+      </Nav>
+      <TabContent>
+      {(estacionesData || []).map((estacion, idx) => {
+          return (
+          <TabPane eventKey={idx} id={estacion.id} key={idx}>
+            <Row>
+              <Col sm={12}>
+                <Card className="shadow-none border">
+                  <CardBody>
+                    <EstacionTab 
+                      estacionId={estacion.id} 
+                      empleado={estacion.empleado} 
+                      numero={estacion.numero} 
+                    />
+                  </CardBody>
+                </Card>
+              </Col>
+            </Row>
+          </TabPane>
+          )
+      })}
+      </TabContent>
+    </TabContainer>
   );
 }
 
