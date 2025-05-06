@@ -3,8 +3,6 @@ import LogoBox from '@/components/LogoBox'
 import IconifyIcon from '@/components/wrappers/IconifyIcon'
 import { useEffect, useRef, useState } from 'react'
 // import { useNavigate } from 'react-router-dom'
-import Apps from './components/Apps'
-import Flag from './components/Flag'
 import LeftSideBarToggle from './components/LeftSideBarToggle'
 import Notifications from './components/Notifications'
 import ProfileDropdown from './components/ProfileDropdown'
@@ -50,14 +48,12 @@ const TopBar = () => {
         </div>
         <div className="d-flex align-items-center gap-2">
           <div className="topbar-item d-flex d-xl-none">
-            <button className="topbar-link" data-bs-toggle="modal" data-bs-target="#searchModal" type="button">
-              <IconifyIcon icon='ri:search-line' className="fs-22" />
+            <button type="button" className="btn btn-outline-primary rounded-pill">
+                Crear evento
             </button>
           </div>
           <SearchBox />
-          <Flag />
-          <Notifications />
-          <Apps />
+          {/* <Notifications /> */}
           <ThemeCustomizeToggle />
           <ThemeModeToggle />
           <ProfileDropdown />

@@ -4,17 +4,61 @@ import React, { useEffect } from 'react';
 import IconifyIcon from '@/components/wrappers/IconifyIcon';
 import AgregarConceptoFactura from './AgregarConceptoFactura';
 
-// ************** HELPERS ***************
-import {conceptosFacturaMockInput} from '../data';
+import { useQuery, gql } from '@apollo/client';
+import { toNameCase } from '@/helpers/strings';
+import { Spinner } from 'react-bootstrap';
+
+// ************** Gql queries ***********
+
+const GET_CONCEPTOS_FROM_FACTURA = gql`
+    query ConceptosFactura($facturaId: String!) {
+        conceptosFactura(facturaId: $facturaId) {
+            id
+            cantidad
+            total
+            producto {
+                id
+                nombre
+                marca
+                precioPublico
+            }
+            servicio {
+                id
+                nombre
+                categoria
+                precio
+            }
+            createdAt
+            updatedAt
+        }
+    }
+`;
 
 
 const ConceptosFacturaTable = (props: {
     facturaId: string
 }) => {
 
-    const [conceptosFacturaData, setConceptosFactura] = React.useState(
-        conceptosFacturaMockInput.filter((cf)=>cf.facturaId == props.facturaId).map(cp=>cp.conceptosFactura)[0]
-    );
+    const [conceptosFacturaData, setConceptosFactura] = React.useState<any[]>([]);
+
+    const {loading, error, data} = useQuery(GET_CONCEPTOS_FROM_FACTURA, {
+        variables: {facturaId: props.facturaId}
+    });
+
+    useEffect(()=>{
+            if(data) {
+                let conceptosFactura = data.conceptosFactura;
+              setConceptosFactura(conceptosFactura);
+            }
+        }, [data]);
+
+    if(loading){
+        return (
+          <div className="d-flex justify-content-center">
+            <Spinner />
+          </div>
+        );
+    }
 
     function addConceptoFactura(newCF: any) {
         setConceptosFactura([...conceptosFacturaData||[], newCF])
@@ -27,7 +71,7 @@ const ConceptosFacturaTable = (props: {
     const getTotalFactura = ()=> (conceptosFacturaData||[]).reduce((acc, current)=>{return current.total+acc}, 0)
 
     return (
-        <div>
+        <div className='mb-5'>
             <div className={'table-response-sm'}>
                 <table className="table text-center table-nowrap align-middle mb-0 table-sm">
                     <thead>
@@ -44,15 +88,12 @@ const ConceptosFacturaTable = (props: {
                         <AgregarConceptoFactura addConceptoFactura={addConceptoFactura}/>
                         {
                             (conceptosFacturaData||[]).map((concepto, idx) => {
-                                let titulo, precio;
-                                if(!concepto.producto || Object.keys(concepto.producto).length < 1){
-                                    titulo = `${concepto.servicio?.categoria} ${concepto.servicio?.nombre}`
-                                    precio = concepto.servicio?.precio
-                                } else {
+                                let titulo = `${concepto.servicio?.categoria} ${concepto.servicio?.nombre}`
+                                let precio = concepto.servicio?.precio;
+                                if(Object.keys(concepto.producto).length > 0){
                                     titulo = `${concepto.producto?.nombre} ${concepto.producto?.marca}`
                                     precio = concepto.producto.precioPublico;
                                 }
-
                                 return (
                                     <tr key={concepto.id}>
                                         <th scope="row">0{idx + 1}</th>
@@ -81,9 +122,9 @@ const ConceptosFacturaTable = (props: {
                 </table>
             </div>
             <div>
-                <table className="table table-nowrap align-middle mb-0 ms-auto" style={{ width: 335 }}>
+                <table className="table table-nowrap align-middle mt-2 ms-auto" style={{ width: 335 }}>
                     <tbody>
-                        <tr className="border-top border-top-dashed fs-16">
+                        <tr className="fs-16">
                             <td className="fw-bold">Total a pagar</td>
                             <td className="fw-bold text-end">${getTotalFactura()}</td>
                         </tr>

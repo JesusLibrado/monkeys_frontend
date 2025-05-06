@@ -5,7 +5,7 @@ import { Col, Row } from 'react-bootstrap'
 import { Metadata } from 'next'
 import ComponentContainerCard from '@/components/ComponentContainerCard';
 
-export const metadata: Metadata = { title: 'Dashboard' }
+export const metadata: Metadata = { title: 'Recepción' }
 
 const DashboardPage = () => {
   return (

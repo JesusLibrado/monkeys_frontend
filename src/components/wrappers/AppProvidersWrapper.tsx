@@ -19,7 +19,7 @@ const client = new ApolloClient({
 
 const AppProvidersWrapper = ({ children }: ChildrenType) => {
   const handleChangeTitle = () => {
-    if (document.visibilityState == 'hidden') document.title = 'Please come back 🥺'
+    if (document.visibilityState == 'hidden') document.title = 'Sistema Monkeys'
     else document.title = DEFAULT_PAGE_TITLE
   }
 

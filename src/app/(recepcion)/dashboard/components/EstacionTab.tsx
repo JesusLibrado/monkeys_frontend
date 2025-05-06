@@ -1,14 +1,33 @@
 'use client'
 
 import React, { useEffect } from 'react';
-import { Card, CardBody, Col, Row } from 'react-bootstrap';
+import { Card, CardBody, Col, Row, Spinner } from 'react-bootstrap';
 import ConceptosFacturaTable from './ConceptosFacturaTable';
 import IconifyIcon from '@/components/wrappers/IconifyIcon';
 import CrearConceptoFactura from './CrearConceptoFactura';
 
-// ************** HELPERS ***************
+import { useQuery, gql } from '@apollo/client';
+import { toNameCase } from '@/helpers/strings';
 
-import {facturasMockInput} from '../data';
+// ************** Gql queries ***********
+
+const GET_EVENTO_BY_ESTACION = gql`
+    query EventoByEstacion($estacionId: String!) {
+        eventoByEstacion(estacionId: $estacionId) {
+            id
+            nombreCliente
+            estatus
+            factura {
+                id
+                estatus
+                folio
+                total
+            }
+            createdAt
+            updatedAt
+        }
+    }
+`;
 
 const EstacionTab = (props: {
     estacionId: string,
@@ -19,23 +38,42 @@ const EstacionTab = (props: {
     numero: number
 }) => {
 
-    const [facturaData, setFactura] = React.useState(facturasMockInput.filter((factura)=>factura.estacionId == props.estacionId)[0]);
+    const [eventoData, setEventoData] = React.useState<any>({});
     const [agregarConceptoClicked, setAgregarConcepto] = React.useState(false);
+
+    const {loading, error, data} = useQuery(GET_EVENTO_BY_ESTACION, {
+        variables: {estacionId: props.estacionId}
+    });
+
+    useEffect(()=>{
+        if(data) {
+          let eventoByEstacion = data.eventoByEstacion;
+          setEventoData(eventoByEstacion);
+        }
+    }, [data]);
 
     function toggleAgregarConceptoButton(event: any) {
         event.preventDefault();
         setAgregarConcepto(agregarConceptoClicked?false:true);
     }
 
+    if(loading){
+        return (
+          <div className="d-flex justify-content-center">
+            <Spinner />
+          </div>
+        );
+    }
+
     if(props.empleado===null) {
         return (
             <div className="d-flex align-items-start justify-content-center mb-4">
-                <h4>Esta estación no tiene un barbero asociado. Solicite ayuda a su administrador</h4>
+                <h5>Esta estación no tiene un barbero asociado. Solicite ayuda a su administrador</h5>
             </div>
         );
     }
 
-    if(!facturaData) {
+    if(!eventoData) {
         return (
             <div className="text-center mb-4">
                 <h5>Estación disponible, no hay evento en curso</h5>
@@ -49,8 +87,8 @@ const EstacionTab = (props: {
     }
 
 
-    const EventoHeader = () => (
-        <>
+    return (
+        <div>
             <div className="d-flex align-items-start justify-content-between mb-4">
                 <div>
                     <h3 className="m-0 fw-bolder fs-20">Estación # {props.numero}</h3>
@@ -62,11 +100,11 @@ const EstacionTab = (props: {
             <div className="d-flex align-items-start justify-content-between mb-4">
                 <div>
                     <h5 className="fw-bold mb-2 fs-14"> Nombre del cliente: </h5>
-                    <h6 className="fs-14 mb-2">{facturaData.evento.nombreCliente}</h6>
+                    <h6 className="fs-14 mb-2">{toNameCase(eventoData.nombreCliente??'')}</h6>
                 </div>
                 <div>
                     <h5 className="fw-bold mb-2 fs-14"> Atendido por: </h5>
-                    <h6 className="fs-14 mb-2">{props.empleado.nombre}</h6>
+                    <h6 className="fs-14 mb-2">{toNameCase(props.empleado.nombre)}</h6>
                 </div>
             </div>
             {
@@ -82,22 +120,16 @@ const EstacionTab = (props: {
                         </button>
                     </div>:''
             }
-        </>
-    )
-
-    return (
-        <div>
-            {EventoHeader()}
             {(agregarConceptoClicked)?
-                <CrearConceptoFactura facturaId={facturaData.id} onCloseClicked={toggleAgregarConceptoButton}/>:
-                <ConceptosFacturaTable facturaId={facturaData.id}/>
+                <CrearConceptoFactura facturaId={eventoData.factura?.id} onCloseClicked={toggleAgregarConceptoButton}/>:
+                <ConceptosFacturaTable facturaId={eventoData.factura?.id}/>
             }
             <div className="d-print-none mb-5">
                 <div className="d-flex justify-content-center gap-2">
                     <button type='button' className="btn btn-outline-danger">
                         Cancelar evento
                     </button>
-                    <button type='button' className={`btn btn-primary ${facturaData.total==0?'disabled':''}`}>
+                    <button type='button' className={`btn btn-primary ${eventoData.factura?.total==0?'disabled':''}`}>
                         Realizar pago
                     </button>
                 </div>

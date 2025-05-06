@@ -1,6 +1,5 @@
 'use client'
 
-import ComponentContainerCard from '@/components/ComponentContainerCard';
 import IconifyIcon from '@/components/wrappers/IconifyIcon';
 import React, { useEffect } from 'react';
 import { Card, CardBody, Col, Nav, NavItem, NavLink, Row, Spinner, TabContainer, TabContent, TabPane } from 'react-bootstrap';
