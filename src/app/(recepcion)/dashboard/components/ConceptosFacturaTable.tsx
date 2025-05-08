@@ -3,10 +3,9 @@
 import React, { useEffect } from 'react';
 import IconifyIcon from '@/components/wrappers/IconifyIcon';
 import AgregarConceptoFactura from './AgregarConceptoFactura';
-
 import { useQuery, gql } from '@apollo/client';
-import { toNameCase } from '@/helpers/strings';
 import { Spinner } from 'react-bootstrap';
+import { toNameCase } from '@/helpers/strings';
 
 // ************** Gql queries ***********
 
@@ -28,8 +27,6 @@ const GET_CONCEPTOS_FROM_FACTURA = gql`
                 categoria
                 precio
             }
-            createdAt
-            updatedAt
         }
     }
 `;
@@ -48,7 +45,7 @@ const ConceptosFacturaTable = (props: {
     useEffect(()=>{
             if(data) {
                 let conceptosFactura = data.conceptosFactura;
-              setConceptosFactura(conceptosFactura);
+                setConceptosFactura(conceptosFactura);
             }
         }, [data]);
 
@@ -61,6 +58,7 @@ const ConceptosFacturaTable = (props: {
     }
 
     function addConceptoFactura(newCF: any) {
+        console.log(newCF);
         setConceptosFactura([...conceptosFacturaData||[], newCF])
     }
 
@@ -85,13 +83,13 @@ const ConceptosFacturaTable = (props: {
                     </tr>
                     </thead>
                     <tbody id="products-list">
-                        <AgregarConceptoFactura addConceptoFactura={addConceptoFactura}/>
+                        <AgregarConceptoFactura facturaId={props.facturaId} addConceptoFactura={addConceptoFactura}/>
                         {
                             (conceptosFacturaData||[]).map((concepto, idx) => {
                                 let titulo = `${concepto.servicio?.categoria} ${concepto.servicio?.nombre}`
                                 let precio = concepto.servicio?.precio;
-                                if(Object.keys(concepto.producto).length > 0){
-                                    titulo = `${concepto.producto?.nombre} ${concepto.producto?.marca}`
+                                if(concepto.producto && Object.keys(concepto.producto).length > 0){
+                                    titulo = `${concepto.producto?.nombre} ${toNameCase(concepto.producto?.marca)}`
                                     precio = concepto.producto.precioPublico;
                                 }
                                 return (

@@ -1,1 +1,1 @@
-export const toNameCase = (word: string) => word.replace(word.charAt(0), word.charAt(0).toUpperCase())
+export const toNameCase = (word: string = '') => word.replace(word.charAt(0), word.charAt(0).toUpperCase())
