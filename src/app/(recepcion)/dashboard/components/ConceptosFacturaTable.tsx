@@ -3,7 +3,7 @@
 import React, { useEffect } from 'react';
 import IconifyIcon from '@/components/wrappers/IconifyIcon';
 import AgregarConceptoFactura from './AgregarConceptoFactura';
-import { useQuery, gql } from '@apollo/client';
+import { useQuery, gql, useMutation } from '@apollo/client';
 import { Spinner } from 'react-bootstrap';
 import { toNameCase } from '@/helpers/strings';
 
@@ -31,6 +31,18 @@ const GET_CONCEPTOS_FROM_FACTURA = gql`
     }
 `;
 
+// ************** Gql mutations ***********
+
+const REMOVE_CONCEPTO_FROM_FACTURA = gql`
+    mutation RemoveConceptoFactura($removeConceptoFacturaId: String!) {
+    removeConceptoFactura(id: $removeConceptoFacturaId) {
+            id
+        }
+    }
+`;
+
+
+
 
 const ConceptosFacturaTable = (props: {
     facturaId: string
@@ -38,32 +50,40 @@ const ConceptosFacturaTable = (props: {
 
     const [conceptosFacturaData, setConceptosFactura] = React.useState<any[]>([]);
 
-    const {loading, error, data} = useQuery(GET_CONCEPTOS_FROM_FACTURA, {
+    const {loading, error, data, refetch} = useQuery(GET_CONCEPTOS_FROM_FACTURA, {
         variables: {facturaId: props.facturaId}
     });
+
+    const [removeConceptoFactura, {loading: removing, error: removeError, data: deletedConcepto}] = useMutation(REMOVE_CONCEPTO_FROM_FACTURA);
 
     useEffect(()=>{
             if(data) {
                 let conceptosFactura = data.conceptosFactura;
                 setConceptosFactura(conceptosFactura);
             }
-        }, [data]);
+            if(deletedConcepto) {
+                refetch();
+            }
+        }, [data, deletedConcepto]);
 
-    if(loading){
+    if(loading || removing){
         return (
-          <div className="d-flex justify-content-center">
+          <div className="d-flex justify-content-center mb-4">
             <Spinner />
           </div>
         );
     }
 
     function addConceptoFactura(newCF: any) {
-        console.log(newCF);
         setConceptosFactura([...conceptosFacturaData||[], newCF])
     }
 
-    function removeConceptoFactura(conceptoId: any) {
-        setConceptosFactura(conceptosFacturaData.filter((cf)=>cf.id!=conceptoId));
+    function deleteRow(conceptoId: any) {
+        removeConceptoFactura({
+            variables: {
+                removeConceptoFacturaId: conceptoId
+            }
+        });
     }
 
     const getTotalFactura = ()=> (conceptosFacturaData||[]).reduce((acc, current)=>{return current.total+acc}, 0)
@@ -107,7 +127,7 @@ const ConceptosFacturaTable = (props: {
                                             <button 
                                                 type="button" 
                                                 className="btn flex-shrink-0 rounded-circle btn-icon btn-ghost-danger"
-                                                onClick={()=>removeConceptoFactura(concepto.id)}
+                                                onClick={()=>deleteRow(concepto.id)}
                                             >
                                                 <IconifyIcon icon="solar:trash-bin-trash-bold-duotone" className="fs-20" />
                                             </button>

@@ -28,7 +28,6 @@ const CREATE_CONCEPTO_FACTURA = gql`
     }
 `;
 
-// *********************** Helpers ***************
 
 // *********************** AgregarConceptoFactura ***************
 
@@ -43,7 +42,6 @@ const AgregarConceptoFactura = (props: {
             servicioId: '',
             productoId: ''
         });
-    
     const [precio, setPrecio] = React.useState(0);
     const [cantidad, setCantidad] = React.useState(1);
     const [cantidadDisponible, setCantidadDisponible] = React.useState(1);
