@@ -139,6 +139,7 @@ const SelectConcepto = (props: {
                     <Spinner />:
                     <Select
                         defaultValue={''}
+                        placeholder={'Producto o servicio'}
                         formatGroupLabel={formatGroupLabel}
                         onChange={handleSelectedConceptoChange}
                         options={selectOptions}

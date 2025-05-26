@@ -8,6 +8,7 @@ import CrearConceptoFactura from './CrearConceptoFactura';
 
 import { useQuery, gql } from '@apollo/client';
 import { toNameCase } from '@/helpers/strings';
+import EmpezarEventoButton from '../../components/EmpezarEventoButton';
 
 // ************** Gql queries ***********
 
@@ -41,7 +42,7 @@ const EstacionTab = (props: {
     const [eventoData, setEventoData] = React.useState<any>({});
     const [agregarConceptoClicked, setAgregarConcepto] = React.useState(false);
 
-    const {loading, error, data} = useQuery(GET_EVENTO_BY_ESTACION, {
+    const {loading, error, data, refetch} = useQuery(GET_EVENTO_BY_ESTACION, {
         variables: {estacionId: props.estacionId}
     });
 
@@ -51,6 +52,10 @@ const EstacionTab = (props: {
           setEventoData(eventoByEstacion);
         }
     }, [data]);
+
+    function updateTab() {
+        refetch();
+    }
 
     function toggleAgregarConceptoButton(event: any) {
         event.preventDefault();
@@ -78,9 +83,12 @@ const EstacionTab = (props: {
             <div className="text-center mb-4">
                 <h5>Estación disponible, no hay evento en curso</h5>
                 <p className='mt-3'>
-                    <button type="button" className="btn btn-ghost-primary">
-                        Empezar evento
-                    </button>
+                    <EmpezarEventoButton 
+                        estacionId={props.estacionId}
+                        empleado={props.empleado}
+                        numero={props.numero}
+                        onSubmit={updateTab}
+                    />
                 </p>
             </div>
         );

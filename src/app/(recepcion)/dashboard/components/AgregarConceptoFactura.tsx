@@ -1,6 +1,6 @@
 import React, { CSSProperties, useEffect } from 'react';
 import IconifyIcon from '@/components/wrappers/IconifyIcon';
-import SelectConcepto from './SelectConcepto';
+import SelectConcepto from '../../components/SelectConcepto';
 import { useQuery, gql, useMutation } from '@apollo/client';
 import { Spinner } from 'react-bootstrap';
 

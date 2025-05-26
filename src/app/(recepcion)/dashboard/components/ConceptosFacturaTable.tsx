@@ -7,7 +7,7 @@ import { useQuery, gql, useMutation } from '@apollo/client';
 import { Spinner } from 'react-bootstrap';
 import { toNameCase } from '@/helpers/strings';
 
-// ************** Gql queries ***********
+// ************** Gql***********
 
 const GET_CONCEPTOS_FROM_FACTURA = gql`
     query ConceptosFactura($facturaId: String!) {
@@ -30,8 +30,6 @@ const GET_CONCEPTOS_FROM_FACTURA = gql`
         }
     }
 `;
-
-// ************** Gql mutations ***********
 
 const REMOVE_CONCEPTO_FROM_FACTURA = gql`
     mutation RemoveConceptoFactura($removeConceptoFacturaId: String!) {
@@ -57,14 +55,18 @@ const ConceptosFacturaTable = (props: {
     const [removeConceptoFactura, {loading: removing, error: removeError, data: deletedConcepto}] = useMutation(REMOVE_CONCEPTO_FROM_FACTURA);
 
     useEffect(()=>{
-            if(data) {
-                let conceptosFactura = data.conceptosFactura;
-                setConceptosFactura(conceptosFactura);
-            }
-            if(deletedConcepto) {
-                refetch();
-            }
-        }, [data, deletedConcepto]);
+        if(data) {
+            let conceptosFactura = data.conceptosFactura;
+            setConceptosFactura(conceptosFactura);
+        }
+        if(deletedConcepto) {
+            refetch();
+        }
+        if(props.facturaId) {
+            refetch();
+        }
+    }, [data, deletedConcepto, props.facturaId]);
+
 
     if(loading || removing){
         return (
