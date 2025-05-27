@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useEffect } from 'react';
-import { Card, CardBody, Col, Row, Spinner } from 'react-bootstrap';
+import { Spinner } from 'react-bootstrap';
 import ConceptosFacturaTable from './ConceptosFacturaTable';
 import IconifyIcon from '@/components/wrappers/IconifyIcon';
 import CrearConceptoFactura from './CrearConceptoFactura';
@@ -29,6 +29,35 @@ const GET_EVENTO_BY_ESTACION = gql`
         }
     }
 `;
+
+// ************** EstacionHeader ***********
+
+const EstacionHeader = (props: {
+    disponible: boolean,
+    numero: number
+}) =>{
+
+    return (
+        <div className="d-flex align-items-start justify-content-between mb-4">
+            <span>
+                <h3 className="m-0 fw-bolder fs-20">
+                    Estación # {props.numero} 
+                </h3>
+                
+            </span>
+            {
+                (!props.disponible)?
+                    <div className="text-end">
+                        Evento actualizado hace 12 minutos
+                    </div>:
+                    <span className="text-end badge me-1 badge-outline-success rounded-pill">Disponible</span>
+            }
+        </div>
+)
+}
+
+
+// ************** Exported component --- EstacionTab ***********
 
 const EstacionTab = (props: {
     estacionId: string,
@@ -78,10 +107,12 @@ const EstacionTab = (props: {
         );
     }
 
+    const disponible = !eventoData;
+
     if(!eventoData) {
         return (
             <div className="text-center mb-4">
-                <h5>Estación disponible, no hay evento en curso</h5>
+                <EstacionHeader numero={props.numero} disponible={true}/>
                 <p className='mt-3'>
                     <EmpezarEventoButton 
                         estacionId={props.estacionId}
@@ -97,14 +128,7 @@ const EstacionTab = (props: {
 
     return (
         <div>
-            <div className="d-flex align-items-start justify-content-between mb-4">
-                <div>
-                    <h3 className="m-0 fw-bolder fs-20">Estación # {props.numero}</h3>
-                </div>
-                <div className="text-end">
-                    Evento actualizado hace 12 minutos
-                </div>
-            </div>
+            <EstacionHeader numero={props.numero} disponible={false} />
             <div className="d-flex align-items-start justify-content-between mb-4">
                 <div>
                     <h5 className="fw-bold mb-2 fs-14"> Nombre del cliente: </h5>

@@ -40,7 +40,7 @@ const REMOVE_CONCEPTO_FROM_FACTURA = gql`
 `;
 
 
-
+// ************** Exported component --- ConceptosFacturaTable ***********
 
 const ConceptosFacturaTable = (props: {
     facturaId: string

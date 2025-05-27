@@ -2,26 +2,11 @@
 
 import React, {useEffect, useState} from "react";
 import useModal from '@/hooks/useModal'
-import useToggle from '@/hooks/useToggle'
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button, Col, Row, Spinner } from "react-bootstrap";
-import { useFormik } from 'formik';
-import { useQuery, gql, useMutation } from '@apollo/client';
-import Select from "react-select";
+import { gql, useMutation } from '@apollo/client';
+import SelectEstacionForm from "./SelectEstacionForm";
 
 // ************** Gql ***********
-
-const GET_ESTACIONES_DISPONIBLES = gql`
-    query EstacionesDisponibles {
-        estacionesDisponibles {
-            id
-            numero
-            empleado {
-                id
-                nombre
-            }
-        }
-    }
-`;
 
 const CREATE_FACTURA = gql`
     mutation CreateFactura($createFacturaInput: CreateFacturaInput!) {
@@ -40,26 +25,7 @@ const CREATE_FACTURA = gql`
 `;
 
 
-// ************** Helpers ***********
-
-const getSelectEstacionOptions = (estaciones: any[]) => estaciones.map(
-    (estacion)=>({
-        value: estacion.id,
-        label: estacion.numero
-    })
-);
-
-const getSelectEmpleadoOptions = (estaciones: any[]) => estaciones.map(
-    (estacion)=> {
-        let empleado = estacion.empleado;
-        return {
-            value: empleado.id,
-            label: empleado.nombre
-        }
-    }
-)
-
-
+// ************** Exported component --- EmpezarEventoButton ***********
 
 const EmpezarEventoButton = (props: {
     estacionId?: string,
@@ -68,36 +34,26 @@ const EmpezarEventoButton = (props: {
         nombre: string
     },
     numero?: number,
-    onSubmit: Function
+    onSubmit: Function,
+    label?: String
 }) => {
 
     const {isOpen, className, scroll, size, toggleModal, openModalWithSize} = useModal();
 
-    const {data: estacionesData, loading: loadingEstaciones, error: errorEstaciones} = useQuery(GET_ESTACIONES_DISPONIBLES);
-    const [createFactura, {loading: loadingFactura, error: errorFactura, data: facturaData}] = useMutation(CREATE_FACTURA);
+    const [createFactura, {loading, error, data}] = useMutation(CREATE_FACTURA);
 
-    const [estacionOptions, setEstacionOptions] = useState<any[]>([]);
-    const [selectedEstacion, setSelectedEstacion] = useState<any>({});
-    const [empleadoOptions, setEmpleadoOptions] = useState<any[]>([]);
-    const [selectedEmpleado, setSelectedEmpleado] = useState<any>({});
     const [nombreCliente, setNombreCliente] = useState('');
+    const [selectedEstacionId, setSelectedEstacionId] = useState(props.estacionId);
 
-    const disableButton = nombreCliente === '' || loadingEstaciones || loadingFactura;
+    const disableButton = nombreCliente === '' || loading || selectedEstacionId == '';
 
-    useEffect(()=>{
-        if(estacionesData) {
-            const estacionesDisponibles = estacionesData.estacionesDisponibles;
-            setEstacionOptions(getSelectEstacionOptions(estacionesDisponibles));
-            setSelectedEstacion({value: props.estacionId, label: props.numero})
-            setEmpleadoOptions(getSelectEmpleadoOptions(estacionesDisponibles));
-            setSelectedEmpleado({value: props.empleado?.id, label: props.empleado?.nombre});
-        }
-    }, [estacionesData]);
+    function handleEstacionChange(estacionId: string) {
+        setSelectedEstacionId(estacionId);
+    }
 
     function resetState() {
         setNombreCliente('');
-        setSelectedEmpleado({value: props.empleado?.id, label: props.empleado?.nombre});
-        setSelectedEstacion({value: props.estacionId, label: props.numero});
+        setSelectedEstacionId('');
     }
 
     function crearFactura() {
@@ -105,7 +61,7 @@ const EmpezarEventoButton = (props: {
             variables: {
                 createFacturaInput: {
                     evento: {
-                        estacionId: selectedEstacion.value,
+                        estacionId: selectedEstacionId,
                         nombreCliente: nombreCliente
                     }
                 }
@@ -128,7 +84,7 @@ const EmpezarEventoButton = (props: {
         <>
             <button 
                 type="button" 
-                className="btn btn-ghost-primary"
+                className="btn btn-primary"
                 onClick={() => openModalWithSize('lg')}
             >
                 Empezar evento
@@ -139,54 +95,25 @@ const EmpezarEventoButton = (props: {
                     <h4 className="modal-title">Empezar servicio para cliente</h4>
                 </ModalHeader>
                 <ModalBody>
-                    {
-                        loadingEstaciones?
-                            <div className="d-flex justify-content-center">
-                                <Spinner />
-                            </div>:
-                            <form className="form-horizontal">
-                                <Row className="mb-3">
-                                    <Col md={6}>
-                                        Número de estación
-                                    </Col>
-                                    <Col xs={6}>
-                                        <Select
-                                            defaultValue={selectedEstacion}
-                                            placeholder={'Estacion'}
-                                            options={estacionOptions}
-                                            onChange={setSelectedEstacion}
-                                        />    
-                                    </Col>
-                                </Row>
-                                <Row className="mb-3">
-                                    <Col md={6}>
-                                        Nombre del barbero
-                                    </Col>
-                                    <Col xs={6}>
-                                        <Select
-                                            defaultValue={selectedEmpleado}
-                                            placeholder={'Barbero'}
-                                            options={empleadoOptions}
-                                            onChange={setSelectedEmpleado}
-                                        />       
-                                    </Col>
-                                </Row>
-                                <Row className="mb-3">
-                                    <Col md={6}>
-                                        Nombre del cliente
-                                    </Col>
-                                    <Col xs={6}>
-                                        <input 
-                                            type="text" 
-                                            className="form-control" 
-                                            placeholder="Juan Javier"
-                                            onChange={(e)=>setNombreCliente(e.target.value)} 
-                                        />
-                                    </Col>
-                                </Row>
-                            </form>
-                    }
-                                    
+                    <form className="form-horizontal">
+                        <SelectEstacionForm
+                            estacionId={props.estacionId}
+                            onChange={handleEstacionChange}
+                        />
+                        <Row className="mb-3">
+                            <Col md={6}>
+                                Nombre del cliente
+                            </Col>
+                            <Col xs={6}>
+                                <input 
+                                    type="text" 
+                                    className="form-control" 
+                                    placeholder="Juan Javier"
+                                    onChange={(e)=>setNombreCliente(e.target.value)} 
+                                />
+                            </Col>
+                        </Row>
+                    </form>      
                 </ModalBody>
                 <ModalFooter>
                     <button 
@@ -203,9 +130,9 @@ const EmpezarEventoButton = (props: {
                         disabled={disableButton}
                     >
                         {
-                            loadingFactura ? 
+                            loading ? 
                             <Spinner className="fs-10"/>:
-                            "Empezar"
+                            props.label?props.label:"Empezar"
                         }
                         
                     </button>

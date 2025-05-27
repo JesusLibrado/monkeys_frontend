@@ -16,8 +16,8 @@ export const MENU_ITEMS: MenuItemType[] = [
   },
   {
     key: 'chat',
-    label: 'Chat',
-    icon: 'tabler:message',
+    label: 'Catalogo',
+    icon: 'tabler:vocabulary',
     url: '/apps/chat',
   },
   {
@@ -53,7 +53,7 @@ export const MENU_ITEMS: MenuItemType[] = [
   },
   {
     key: 'file-manager',
-    label: 'File Manager',
+    label: 'OTRA COSA',
     icon: 'tabler:folders',
     url: '/apps/file-manager',
   },
@@ -158,58 +158,8 @@ export const MENU_ITEMS: MenuItemType[] = [
   },
   {
     key: 'auth',
-    label: 'Authentication',
+    label: 'OTRO ALGO',
     icon: 'tabler:user-shield',
-    children: [
-      {
-        key: 'login',
-        label: 'Login',
-        url: '/auth/login',
-        parentKey: 'auth',
-      },
-      {
-        key: 'register',
-        label: 'Register',
-        url: '/auth/register',
-        parentKey: 'auth',
-      },
-      {
-        key: 'logout',
-        label: 'Logout',
-        url: '/auth/logout',
-        parentKey: 'auth',
-      },
-      {
-        key: 'recover-password',
-        label: 'Recover Password',
-        url: '/auth/recover-password',
-        parentKey: 'auth',
-      },
-      {
-        key: 'create-password',
-        label: 'Create Password',
-        url: '/auth/create-password',
-        parentKey: 'auth',
-      },
-      {
-        key: 'lock-screen',
-        label: 'Lock Screen',
-        url: '/auth/lock-screen',
-        parentKey: 'auth',
-      },
-      {
-        key: 'confirm-mail',
-        label: 'Confirm Mail',
-        url: '/auth/confirm-mail',
-        parentKey: 'auth',
-      },
-      {
-        key: 'login-pin',
-        label: 'Login with PIN',
-        url: '/auth/login-pin',
-        parentKey: 'auth',
-      },
-    ]
   },
   {
     key: 'errors',
