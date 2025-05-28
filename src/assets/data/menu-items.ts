@@ -6,30 +6,25 @@ export const MENU_ITEMS: MenuItemType[] = [
   {
     key: 'dashboard',
     label: 'Dashboard',
-    icon: 'tabler:dashboard',
-    badge: {
-      text: "9",
-      variant: "danger",
-      icon: ''
-    },
+    icon: 'tabler:home',
     url: '/dashboard',
   },
   {
     key: 'catalogo',
     label: 'Catálogo',
-    icon: 'tabler:message',
+    icon: 'tabler:book',
     url: '/apps/chat',
   },
   {
     key: 'servicios',
     label: 'Servicios',
-    icon: 'tabler:calendar',
+    icon: 'tabler:scissors',
     url: '/apps/calendar',
   },
   {
     key: 'pagos',
     label: 'Pagos',
-    icon: 'tabler:user-square-rounded',
+    icon: 'tabler:currency-dollar',
     children: [
       {
         key: 'contacts',
