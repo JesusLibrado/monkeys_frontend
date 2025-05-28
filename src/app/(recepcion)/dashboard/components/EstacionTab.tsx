@@ -5,10 +5,11 @@ import { Spinner } from 'react-bootstrap';
 import ConceptosFacturaTable from './ConceptosFacturaTable';
 import IconifyIcon from '@/components/wrappers/IconifyIcon';
 import CrearConceptoFactura from './CrearConceptoFactura';
-
+import EmpezarEventoButton from '../../components/EmpezarEventoButton';
+import CancelarFacturaButton from '../../components/CancelarFacturaButton';
 import { useQuery, gql } from '@apollo/client';
 import { toNameCase } from '@/helpers/strings';
-import EmpezarEventoButton from '../../components/EmpezarEventoButton';
+
 
 // ************** Gql queries ***********
 
@@ -75,6 +76,9 @@ const EstacionTab = (props: {
         variables: {estacionId: props.estacionId}
     });
 
+    const [, updateState] = React.useState(null);
+    const forceUpdate = React.useCallback(() => updateState(null), []);
+
     useEffect(()=>{
         if(data) {
           let eventoByEstacion = data.eventoByEstacion;
@@ -83,6 +87,7 @@ const EstacionTab = (props: {
     }, [data]);
 
     function updateTab() {
+        forceUpdate();
         refetch();
     }
 
@@ -106,8 +111,6 @@ const EstacionTab = (props: {
             </div>
         );
     }
-
-    const disponible = !eventoData;
 
     if(!eventoData) {
         return (
@@ -152,15 +155,17 @@ const EstacionTab = (props: {
                         </button>
                     </div>:''
             }
-            {(agregarConceptoClicked)?
-                <CrearConceptoFactura facturaId={eventoData.factura?.id} onCloseClicked={toggleAgregarConceptoButton}/>:
-                <ConceptosFacturaTable facturaId={eventoData.factura?.id}/>
+            {
+                (agregarConceptoClicked)?
+                    <CrearConceptoFactura facturaId={eventoData.factura?.id} onCloseClicked={toggleAgregarConceptoButton}/>:
+                    <ConceptosFacturaTable facturaId={eventoData.factura?.id}/>
             }
             <div className="d-print-none mb-5">
                 <div className="d-flex justify-content-center gap-2">
-                    <button type='button' className="btn btn-outline-danger">
-                        Cancelar evento
-                    </button>
+                    <CancelarFacturaButton 
+                        facturaId={eventoData.factura?.id} 
+                        onFacturaCancelada={updateTab}
+                    />
                     <button type='button' className={`btn btn-primary ${eventoData.factura?.total==0?'disabled':''}`}>
                         Realizar pago
                     </button>

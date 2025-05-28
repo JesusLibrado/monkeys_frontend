@@ -4,6 +4,7 @@ import React, {useEffect, useState} from "react";
 import { Col, Row, Spinner } from "react-bootstrap";
 import { useQuery, gql} from '@apollo/client';
 import Select from "react-select";
+import { toNameCase } from "@/helpers/strings";
 
 // ************** Gql ***********
 
@@ -34,7 +35,7 @@ const getSelectEmpleadoOptions = (estaciones: any[]) => estaciones.map(
         let empleado = estacion.empleado;
         return {
             value: empleado.id,
-            label: empleado.nombre
+            label: toNameCase(empleado.nombre)
         }
     }
 )

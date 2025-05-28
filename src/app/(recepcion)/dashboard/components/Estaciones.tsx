@@ -26,10 +26,11 @@ const GET_ESTACIONES = gql `
   }
 `
 
+// ************** Exported component --- Estaciones ***********
 
 const Estaciones = () => {
 
-  const { loading, error, data } = useQuery(GET_ESTACIONES);
+  const { loading, error, data, refetch } = useQuery(GET_ESTACIONES);
   
   const [estacionesData, setEstacionesData] = React.useState<any[]>([]);
 
