@@ -11,7 +11,7 @@ import ThemeCustomizeToggle from './components/ThemeCustomizeToggle'
 import ThemeModeToggle from './components/ThemeModeToggle'
 import { usePathname } from 'next/navigation'
 import EmpezarEventoButton from '@/components/EmpezarEventoButton'
-
+import { EventoProvider } from '@/context/useEventoContext'
 
 const TopBar = () => {
 
@@ -50,7 +50,13 @@ const TopBar = () => {
         <div className="d-flex align-items-center gap-2">
           {/* <SearchBox /> */}
           {/* <Notifications /> */}
-          <EmpezarEventoButton onEventoCreado={()=>{}} className={'btn-soft-primary rounded-pill'} label={'Crear evento'}/>
+          <EventoProvider>
+            <EmpezarEventoButton 
+              onEventoCreado={()=>{}} 
+              className={'btn-soft-primary rounded-pill'} 
+              label={'Crear evento'}
+            />
+          </EventoProvider>
           <div className="topbar-item d-flex d-xs-none">  
             <ThemeCustomizeToggle />
             <ThemeModeToggle />

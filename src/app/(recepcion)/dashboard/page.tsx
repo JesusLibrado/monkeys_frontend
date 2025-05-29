@@ -4,6 +4,7 @@ import Estaciones from './Estaciones/Estaciones';
 import { Col, Row } from 'react-bootstrap'
 import { Metadata } from 'next'
 import ComponentContainerCard from '@/common/ComponentContainerCard';
+import {EventoProvider} from '@/context/useEventoContext';
 
 export const metadata: Metadata = { title: 'Recepción' }
 
@@ -17,7 +18,9 @@ const DashboardPage = () => {
             title='Estatus de estaciones'
             description={<>Verifica y administra el estatus de cada estación</>}
           >
-            <Estaciones />
+            <EventoProvider>
+              <Estaciones />
+            </EventoProvider>
           </ComponentContainerCard>
         </Col>
       </Row>

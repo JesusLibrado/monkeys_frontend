@@ -2,7 +2,7 @@
 
 import React, { useEffect } from 'react';
 import IconifyIcon from '@/wrappers/IconifyIcon';
-import AgregarConceptoFactura from '@/components/AgregarConceptoFactura';
+import AgregarConceptoFactura from './AgregarConceptoFactura';
 import { useQuery, gql, useMutation } from '@apollo/client';
 import { Spinner } from 'react-bootstrap';
 import { toNameCase } from '@/helpers/strings';

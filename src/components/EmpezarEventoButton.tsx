@@ -1,10 +1,11 @@
 'use client'
 
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import useModal from '@/hooks/useModal'
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button, Col, Row, Spinner } from "react-bootstrap";
 import { gql, useMutation } from '@apollo/client';
-import SelectEstacionForm from "./SelectEstacionForm";
+import SelectEstacion from "./SelectEstacion";
+import { useEventoContext } from "@/context/useEventoContext";
 
 // ************** GraphQL queries ***********
 
@@ -34,14 +35,14 @@ const EmpezarEventoButton = (props: {
         nombre: string
     },
     numero?: number,
-    onEventoCreado: Function,
     label?: String,
     className?: String
 }) => {
 
-    const {isOpen, className, scroll, size, toggleModal, openModalWithSize} = useModal();
-
     const [createFactura, {loading, error, data}] = useMutation(CREATE_FACTURA);
+
+    const {isOpen, className, scroll, size, toggleModal, openModalWithSize} = useModal();
+    const eventoContext = useEventoContext();
 
     const [nombreCliente, setNombreCliente] = useState('');
     const [selectedEstacionId, setSelectedEstacionId] = useState(props.estacionId);
@@ -68,8 +69,8 @@ const EmpezarEventoButton = (props: {
                 }
             }
         });
-        props.onEventoCreado();
         closeModal();
+        eventoContext.notifyEventoUpdated(true);
     }
 
     function closeModal() {
@@ -93,7 +94,7 @@ const EmpezarEventoButton = (props: {
                 </ModalHeader>
                 <ModalBody>
                     <form className="form-horizontal">
-                        <SelectEstacionForm
+                        <SelectEstacion
                             estacionId={props.estacionId}
                             onChange={handleEstacionChange}
                         />

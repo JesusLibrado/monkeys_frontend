@@ -40,9 +40,9 @@ const getSelectEmpleadoOptions = (estaciones: any[]) => estaciones.map(
     }
 )
 
-// ************** Exported component --- SelectEstacionForm ***********
+// ************** Exported component --- SelectEstacion ***********
 
-const SelectEstacionForm = (props: {
+const SelectEstacion = (props: {
     estacionId?: string,
     onChange: Function
 }) => {
@@ -135,4 +135,4 @@ const SelectEstacionForm = (props: {
     );
 }
 
-export default SelectEstacionForm;
+export default SelectEstacion;

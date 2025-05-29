@@ -1,12 +1,13 @@
 'use client'
 
 import IconifyIcon from '@/wrappers/IconifyIcon';
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Card, CardBody, Col, Nav, NavItem, NavLink, Row, Spinner, TabContainer, TabContent, TabPane } from 'react-bootstrap';
 import EstacionTab from './EstacionTab';
 
 import { useQuery, gql } from '@apollo/client';
 import { toNameCase } from '@/helpers/strings';
+import { useEventoContext } from '@/context/useEventoContext';
 
 // ************** Gql queries ***********
 
@@ -31,6 +32,8 @@ const GET_ESTACIONES = gql `
 const Estaciones = () => {
 
   const { loading, error, data, refetch } = useQuery(GET_ESTACIONES);
+
+  const eventoContext = useEventoContext();
   
   const [estacionesData, setEstacionesData] = React.useState<any[]>([]);
 
@@ -40,6 +43,13 @@ const Estaciones = () => {
       setEstacionesData(estaciones);
     }
   }, [data]);
+
+  useEffect(()=>{
+    if(eventoContext.isEventoUpdated) {
+      eventoContext.onNotificationReceived();
+      refetch();
+    }
+  }, [eventoContext.isEventoUpdated]);
 
   function activeTabClassName(estacion: any) {
     if(!estacion.empleado){
