@@ -1,14 +1,14 @@
 'use client'
-import Footer from '@/components/layout/Footer'
-import HorizontalNavBar from '@/components/layout/HorizontalNav/page'
-import LeftSideBar from '@/components/layout/LeftSideBar'
-import TopBar from '@/components/layout/TopBar'
-import IconifyIcon from '@/components/wrappers/IconifyIcon'
+import Footer from '@/common/Footer'
+import HorizontalNavBar from '@/common/HorizontalNav/page'
+import LeftSideBar from '@/common/LeftSideBar'
+import IconifyIcon from '@/wrappers/IconifyIcon'
 import { useLayoutContext } from '@/context/useLayoutContext'
 import { getHorizontalMenuItems } from '@/helpers/Manu'
 import { ChildrenType } from '@/types/component-props'
 import React from 'react'
 import { Card } from 'react-bootstrap'
+import TopBar from '@/common/TopBar'
 
 const AdminLayout = ({ children }: ChildrenType) => {
   const { orientation, changeTitle } = useLayoutContext()

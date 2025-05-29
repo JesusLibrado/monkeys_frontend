@@ -1,4 +1,4 @@
-import AppProvidersWrapper from "@/components/wrappers/AppProvidersWrapper";
+import AppProvidersWrapper from "@/wrappers/AppProvidersWrapper";
 import type { Metadata } from "next";
 
 import '@/assets/scss/app.scss'

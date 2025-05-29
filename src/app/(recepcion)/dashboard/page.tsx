@@ -1,9 +1,9 @@
 import React from 'react'
-import Stat from './components/Stat'
-import Estaciones from './components/Estaciones';
+import Stat from './template/Stat'
+import Estaciones from './Estaciones/Estaciones';
 import { Col, Row } from 'react-bootstrap'
 import { Metadata } from 'next'
-import ComponentContainerCard from '@/components/ComponentContainerCard';
+import ComponentContainerCard from '@/common/ComponentContainerCard';
 
 export const metadata: Metadata = { title: 'Recepción' }
 
