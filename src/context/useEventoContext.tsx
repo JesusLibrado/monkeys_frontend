@@ -29,7 +29,6 @@ export const EventoProvider = (props: {children: any}) => {
 
     async function eventoIsUpdated() {
         await sleep(1000);
-        console.log("sending notification");
         setIsEventoUpdated(true);
     }
     
