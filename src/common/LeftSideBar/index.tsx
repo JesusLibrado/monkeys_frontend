@@ -49,8 +49,8 @@ const LeftSideBar = () => {
               <Image src={avatar1} width={46} className="rounded-circle" alt="user-image" />
               <span className="d-flex gap-1 sidenav-user-name my-2">
                 <span>
-                  <span className="mb-0 fw-semibold lh-base fs-15">Nowak Helme</span>
-                  <p className="my-0 fs-13 text-muted">Admin Head</p>
+                  <span className="mb-0 fw-semibold lh-base fs-15">Uriel MX</span>
+                  <p className="my-0 fs-13 text-muted">MK</p>
                 </span>
                 <IconifyIcon icon='ri:arrow-down-s-line' className="d-block sidenav-user-arrow align-middle" />
               </span>
