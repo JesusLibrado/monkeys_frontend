@@ -1,5 +1,5 @@
 'use client'
-import ThemeCustomizer from '@/components/common/ThemeCustomizer'
+import ThemeCustomizer from '@/components/base-ui/ThemeCustomizer'
 import IconifyIcon from '@/wrappers/IconifyIcon'
 import { useLayoutContext } from '@/context/useLayoutContext'
 import React, { useState } from 'react'

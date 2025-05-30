@@ -1,5 +1,5 @@
 'use client'
-import Footer from '@/components/common/Footer'
+import Footer from '@/components/base-ui/Footer'
 import HorizontalNavBar from '@/components/navbars/HorizontalNav/page'
 import LeftSideBar from '@/components/navbars/LeftSideBar'
 import IconifyIcon from '@/wrappers/IconifyIcon'

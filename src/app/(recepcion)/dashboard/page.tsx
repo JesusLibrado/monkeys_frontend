@@ -3,7 +3,7 @@ import Stat from './template/Stat'
 import Estaciones from './Estaciones/Estaciones';
 import { Col, Row } from 'react-bootstrap'
 import { Metadata } from 'next'
-import ComponentContainerCard from '@/components/common/ComponentContainerCard';
+import ComponentContainerCard from '@/components/base-ui/ComponentContainerCard';
 import {EventoProvider} from '@/context/useEventoContext';
 
 export const metadata: Metadata = { title: 'Recepción' }
