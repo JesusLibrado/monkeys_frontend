@@ -6,7 +6,7 @@ import { Card, CardBody, Col, Nav, NavItem, NavLink, Row, Spinner, TabContainer,
 import EstacionTab from './EstacionTab';
 
 import { useQuery, gql } from '@apollo/client';
-import { toNameCase } from '@/helpers/strings';
+import { toNameCase } from '@/utils/strings';
 import { useEventoContext } from '@/context/useEventoContext';
 
 // ************** Gql queries ***********

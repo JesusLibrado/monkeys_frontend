@@ -21,7 +21,6 @@ const CANCEL_FACTURA = gql`
 `;
 
 
-
 // ************** Exported component --- CancelarFacturaButton ***********
 
 const CancelarFacturaButton = (props: {

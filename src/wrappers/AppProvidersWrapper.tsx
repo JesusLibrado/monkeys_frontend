@@ -5,7 +5,6 @@ import { ToastContainer } from 'react-toastify'
 import { DEFAULT_PAGE_TITLE } from '@/context/constants'
 import { ChildrenType } from '@/types/component-props'
 import dynamic from 'next/dynamic'
-import { ChatProvider } from '@/context/useChatContext'
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 
 const LayoutProvider = dynamic(() => import('@/context/useLayoutContext').then((mod) => mod.LayoutProvider), {
@@ -44,14 +43,11 @@ const AppProvidersWrapper = ({ children }: ChildrenType) => {
     <ApolloProvider client={client}>
       <SessionProvider>
         <LayoutProvider>
-          <ChatProvider>
-            {/* <TitleProvider> */}
-            {/* <NotificationProvider> */}
-            {children}
-            <ToastContainer theme="colored" />
-            {/* </NotificationProvider> */}
-            {/* </TitleProvider> */}
-          </ChatProvider>
+          {/* <ChatProvider> */}
+          {/* <TitleProvider> */}
+          {/* <NotificationProvider> */}
+          {children}
+          <ToastContainer theme="colored" />
         </LayoutProvider>
       </SessionProvider>
     </ApolloProvider>

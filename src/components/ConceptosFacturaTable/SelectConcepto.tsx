@@ -1,5 +1,5 @@
 import { Spinner } from 'react-bootstrap';
-import { toNameCase } from '@/helpers/strings';
+import { toNameCase } from '@/utils/strings';
 import { useQuery, gql } from '@apollo/client';
 import Select from 'react-select';
 import React, { useEffect } from 'react';

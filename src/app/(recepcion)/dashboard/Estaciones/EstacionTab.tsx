@@ -8,7 +8,7 @@ import CrearConceptoFactura from '@/components/CrearConceptoFactura';
 import EmpezarEventoButton from '@/components/EmpezarEventoButton';
 import CancelarFacturaButton from '@/components/CancelarFacturaButton';
 import { useQuery, gql } from '@apollo/client';
-import { toNameCase } from '@/helpers/strings';
+import { toNameCase } from '@/utils/strings';
 import { useEventoContext } from '@/context/useEventoContext';
 
 
