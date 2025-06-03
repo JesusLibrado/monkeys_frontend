@@ -1,5 +1,5 @@
 'use client'
-import LogoBox from '@/components/navbars/HorizontalNav/LogoBox'
+import LogoBox from '@/components/base-ui/HorizontalNav/LogoBox'
 import IconifyIcon from '@/wrappers/IconifyIcon'
 import SimplebarReactClient from '@/wrappers/SimplebarReactClient'
 import React, { Suspense } from 'react'
@@ -91,13 +91,6 @@ const LeftSideBar = () => {
         <Suspense fallback={<FallbackLoading />}>
           <AppMenu menuItems={menuItems} />
         </Suspense>
-
-        <div className="help-box text-center">
-          <h5 className="fw-semibold fs-16">Unlimited Access</h5>
-          <p className="mb-3 text-muted">Upgrade to plan to get access to unlimited reports</p>
-          <a href="javascript: void(0);" className="btn btn-danger btn-sm">Upgrade</a>
-        </div>
-        <div className="clearfix" />
       </SimplebarReactClient>
     </div>
   )

@@ -1,5 +1,5 @@
 'use client'
-import LogoBox from '@/components/navbars/HorizontalNav/LogoBox'
+import LogoBox from '@/components/base-ui/HorizontalNav/LogoBox'
 import IconifyIcon from '@/wrappers/IconifyIcon'
 import { useEffect, useRef, useState } from 'react'
 // import { useNavigate } from 'react-router-dom'

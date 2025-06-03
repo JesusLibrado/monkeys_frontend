@@ -1,15 +1,16 @@
 'use client'
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Spinner } from 'react-bootstrap';
 import ConceptosFacturaTable from '@/components/ConceptosFacturaTable/ConceptosFacturaTable';
 import IconifyIcon from '@/wrappers/IconifyIcon';
-import CrearConceptoFactura from '@/components/CrearConceptoFactura';
+import CrearConceptoFacturaForm from '@/components/CrearConceptoFacturaForm';
 import EmpezarEventoButton from '@/components/EmpezarEventoButton';
 import CancelarFacturaButton from '@/components/CancelarFacturaButton';
 import { useQuery, gql } from '@apollo/client';
 import { toNameCase } from '@/utils/strings';
 import { useEventoContext } from '@/context/useEventoContext';
+import { useRouter } from 'next/navigation';
 
 
 // ************** GraphQL queries ***********
@@ -37,24 +38,21 @@ const GET_EVENTO_BY_ESTACION = gql`
 const EstacionHeader = (props: {
     disponible: boolean,
     numero: number
-}) =>{
-
-    return (
-        <div className="d-flex align-items-start justify-content-between mb-4">
-            <span>
-                <h3 className="m-0 fw-bolder fs-20">
-                    Estación # {props.numero} 
-                </h3>
-                
-            </span>
-            {
-                (!props.disponible)?
-                <span className="text-end badge me-1 badge-outline-danger rounded-pill">Ocupado</span>:
-                <span className="text-end badge me-1 badge-outline-success rounded-pill">Disponible</span>
-            }
-        </div>
+}) =>(
+    <div className="d-flex align-items-start justify-content-between mb-4">
+        <span>
+            <h3 className="m-0 fw-bolder fs-20">
+                Estación # {props.numero} 
+            </h3>
+            
+        </span>
+        {
+            (!props.disponible)?
+            <span className="text-end badge me-1 badge-outline-danger rounded-pill">Ocupado</span>:
+            <span className="text-end badge me-1 badge-outline-success rounded-pill">Disponible</span>
+        }
+    </div>
 )
-}
 
 
 // ************** Exported component --- EstacionTab ***********
@@ -68,8 +66,10 @@ const EstacionTab = (props: {
     numero: number
 }) => {
 
-    const [eventoData, setEventoData] = React.useState<any>({});
-    const [agregarConceptoClicked, setAgregarConcepto] = React.useState(false);
+    const [eventoData, setEventoData] = useState<any>({});
+    const [agregarConceptoClicked, setAgregarConcepto] = useState(false);
+
+    const router = useRouter();
 
     const {loading, error, data, refetch} = useQuery(GET_EVENTO_BY_ESTACION, {
         variables: {estacionId: props.estacionId}
@@ -96,6 +96,10 @@ const EstacionTab = (props: {
         setAgregarConcepto(agregarConceptoClicked?false:true);
     }
 
+    function redirect() {
+        router.push(`facturas/pago?folio=${eventoData.factura.folio}&redirect=dashboard`);
+    }
+
     if(loading){
         return (
           <div className="d-flex justify-content-center">
@@ -117,7 +121,8 @@ const EstacionTab = (props: {
             <div className="text-center mb-4">
                 <EstacionHeader numero={props.numero} disponible={true}/>
                 <p className='mt-3'>
-                    <EmpezarEventoButton 
+                    <EmpezarEventoButton
+                        className={'btn-soft-primary'}
                         estacionId={props.estacionId}
                         empleado={props.empleado}
                         numero={props.numero}
@@ -127,7 +132,6 @@ const EstacionTab = (props: {
             </div>
         );
     }
-
 
     return (
         <div>
@@ -142,33 +146,34 @@ const EstacionTab = (props: {
                     <h6 className="fs-14 mb-2">{toNameCase(props.empleado.nombre)}</h6>
                 </div>
             </div>
-            {/* simplify in a variable */}
+            <div className='mb-4 d-flex flex-row-reverse gap-2'>
+                <button 
+                    type="button" 
+                    className={`btn ${agregarConceptoClicked?'btn-secondary':'btn-soft-secondary'}`}
+                    onClick={toggleAgregarConceptoButton}
+                >
+                    <IconifyIcon icon='tabler:circle-plus' className="me-1 fs-16" />
+                    cotizar greca u otro servicio
+                </button>
+            </div>
             {
-                (!agregarConceptoClicked)?
-                    <div className='mb-4 d-flex flex-row-reverse gap-2'>
-                        <button 
-                            type="button" 
-                            className={`btn btn-ghost-info`}
-                            onClick={toggleAgregarConceptoButton}
-                        >
-                            <IconifyIcon icon='tabler:circle-plus' className="me-1 fs-16" />
-                            cotizar greca u otro servicio
-                        </button>
-                    </div>:''
-            }
-            {
-                (agregarConceptoClicked)?
-                    <CrearConceptoFactura facturaId={eventoData.factura?.id} onCloseClicked={toggleAgregarConceptoButton}/>:
-                    <ConceptosFacturaTable facturaId={eventoData.factura?.id}/>
+                !(agregarConceptoClicked)?
+                <ConceptosFacturaTable facturaId={eventoData.factura?.id} />
+                :
+                <CrearConceptoFacturaForm facturaId={eventoData.factura?.id} onCloseClicked={toggleAgregarConceptoButton}/>
             }
             <div className="d-print-none mb-5">
                 <div className="d-flex justify-content-center gap-2">
                     <CancelarFacturaButton 
                         facturaId={eventoData.factura?.id}
                     />
-                    <button type='button' className={`btn btn-primary ${eventoData.factura?.total==0?'disabled':''}`}>
+                    <button 
+                        type='button' 
+                        className={`btn btn-primary`}
+                        onClick={redirect}
+                    >
                         Realizar pago
-                    </button>
+                    </button>   
                 </div>
             </div>
         </div>

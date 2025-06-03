@@ -1,29 +1,22 @@
 import React from 'react'
-import Stat from './template/Stat'
 import Estaciones from './Estaciones/Estaciones';
-import { Col, Row } from 'react-bootstrap'
-import { Metadata } from 'next'
+import { Breadcrumb, BreadcrumbItem, Col, Row } from 'react-bootstrap'
 import ComponentContainerCard from '@/components/base-ui/ComponentContainerCard';
-import {EventoProvider} from '@/context/useEventoContext';
+import IconifyIcon from '@/wrappers/IconifyIcon';
 
-export const metadata: Metadata = { title: 'Recepción' }
-
-const DashboardPage = () => {
+const RecepcionDashboardPage = () => {
   return (
-    <>
-      {/* <Stat /> */}
-      <Row>
-        <Col xxl={6} xl={12} lg={12} md={12}>
-          <ComponentContainerCard 
-            title='Estatus de estaciones'
-            description={<>Verifica y administra el estatus de cada estación</>}
-          >
-            <Estaciones />
-          </ComponentContainerCard>
-        </Col>
-      </Row>
-    </>
+    <Row>
+      <Col xxl={8} xl={8} lg={12} md={12}>
+        <ComponentContainerCard 
+          title='Estatus de estaciones'
+          description={<>Verifica y administra el estatus de cada estación</>}
+        >
+          <Estaciones />
+        </ComponentContainerCard>
+      </Col>
+    </Row>
   )
 }
 
-export default DashboardPage
+export default RecepcionDashboardPage

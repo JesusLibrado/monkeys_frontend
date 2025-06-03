@@ -6,7 +6,7 @@ import IconifyIcon from '@/wrappers/IconifyIcon';
 import { Formik } from 'formik';
 import Select from 'react-select';
 
-const CrearConceptoFactura = (props: {
+const CrearConceptoFacturaForm = (props: {
     facturaId: string,
     onCloseClicked: any
 }) => {
@@ -130,4 +130,4 @@ const CrearConceptoFactura = (props: {
     );
 }
 
-export default CrearConceptoFactura;
+export default CrearConceptoFacturaForm;

@@ -1,17 +1,21 @@
-'use client'
+
 import Footer from '@/components/base-ui/Footer'
-import HorizontalNavBar from '@/components/navbars/HorizontalNav/page'
-import LeftSideBar from '@/components/navbars/LeftSideBar'
+import HorizontalNavBar from '@/components/base-ui/HorizontalNav/page'
+import LeftSideBar from '@/components/base-ui/LeftSideBar'
 import IconifyIcon from '@/wrappers/IconifyIcon'
 import { useLayoutContext } from '@/context/useLayoutContext'
 import { getHorizontalMenuItems } from '@/helpers/Manu'
 import { ChildrenType } from '@/types/component-props'
 import React from 'react'
-import { Card } from 'react-bootstrap'
-import TopBar from '@/components/navbars/TopBar'
+import TopBar from '@/components/base-ui/TopBar'
 import { EventoProvider } from '@/context/useEventoContext'
+import { Metadata } from 'next'
+import BreadcrumbRouter from '@/components/base-ui/Breadcrumb'
+import { Card } from 'react-bootstrap'
 
-const AdminLayout = ({ children }: ChildrenType) => {
+export const metadata: Metadata = { title: 'Portal de recepción' }
+
+const RecepcionLayout = ({ children }: ChildrenType) => {
   return (
       <EventoProvider>
         <div className="wrapper">
@@ -34,6 +38,7 @@ const AdminLayout = ({ children }: ChildrenType) => {
           </div>
           <div className="page-content">
             <div className="page-container">
+              <BreadcrumbRouter />
               {children}
             </div>
             <Footer />
@@ -44,7 +49,7 @@ const AdminLayout = ({ children }: ChildrenType) => {
   )
 }
 
-export default AdminLayout
+export default RecepcionLayout
 
 {/* {
         orientation == 'vertical' ?

@@ -5,45 +5,40 @@ import { MenuItemType } from "@/types/layout"
 export const MENU_ITEMS: MenuItemType[] = [
   {
     key: 'dashboard',
-    label: 'Dashboard',
+    label: 'Inicio',
     icon: 'tabler:home',
-    badge: {
-      text: "9",
-      variant: "danger",
-      icon: ''
-    },
+    // badge: {
+    //   text: "9",
+    //   variant: "danger",
+    //   icon: ''
+    // },
     url: '/dashboard',
   },
   {
-    key: 'catálogo',
-    label: 'Catálogo',
-    icon: 'tabler:vocabulary',
-    url: '/apps/chat',
+    key: 'productos',
+    label: 'Productos',
+    icon: 'tabler:bottle',
+    url: '/productos',
   },
   {
     key: 'servicios',
     label: 'Servicios',
     icon: 'tabler:scissors',
-    url: '/apps/calendar',
+    url: '/servicios',
   },
   {
-    key: 'pagos',
-    label: 'Pagos',
-    icon: 'tabler:currency-dollar',
-    children: [
-      {
-        key: 'contacts',
-        label: 'Contacts',
-        url: '/users/contacts',
-        parentKey: 'users',
-      },
-      {
-        key: 'profile',
-        label: 'Profile',
-        url: '/users/profile',
-        parentKey: 'users',
-      },
-    ]
+    key: 'facturas',
+    label: 'Facturas',
+    icon: 'tabler:notebook',
+    url: '/facturas',
+    // children: [
+    //   {
+    //     key: 'pagos',
+    //     label: 'Pagos',
+    //     url: '/pagos',
+    //     parentKey: 'facturas',
+    //   }
+    // ]
   },
 ]
 
