@@ -11,6 +11,7 @@ import { useQuery, gql } from '@apollo/client';
 import { toNameCase } from '@/utils/strings';
 import { useEventoContext } from '@/context/useEventoContext';
 import { useRouter } from 'next/navigation';
+import RealizarPagoButton from '@/components/RealizarPagoButton';
 
 
 // ************** GraphQL queries ***********
@@ -69,8 +70,6 @@ const EstacionTab = (props: {
     const [eventoData, setEventoData] = useState<any>({});
     const [agregarConceptoClicked, setAgregarConcepto] = useState(false);
 
-    const router = useRouter();
-
     const {loading, error, data, refetch} = useQuery(GET_EVENTO_BY_ESTACION, {
         variables: {estacionId: props.estacionId}
     });
@@ -94,10 +93,6 @@ const EstacionTab = (props: {
     function toggleAgregarConceptoButton(event: any) {
         event.preventDefault();
         setAgregarConcepto(agregarConceptoClicked?false:true);
-    }
-
-    function redirect() {
-        router.push(`facturas/pago?folio=${eventoData.factura.folio}&redirect=dashboard`);
     }
 
     if(loading){
@@ -167,13 +162,7 @@ const EstacionTab = (props: {
                     <CancelarFacturaButton 
                         facturaId={eventoData.factura?.id}
                     />
-                    <button 
-                        type='button' 
-                        className={`btn btn-primary`}
-                        onClick={redirect}
-                    >
-                        Realizar pago
-                    </button>   
+                    <RealizarPagoButton facturaId={eventoData.factura?.id}/>
                 </div>
             </div>
         </div>
