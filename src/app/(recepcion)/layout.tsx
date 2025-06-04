@@ -8,7 +8,7 @@ import { getHorizontalMenuItems } from '@/helpers/Manu'
 import { ChildrenType } from '@/types/component-props'
 import React from 'react'
 import TopBar from '@/components/base-ui/TopBar'
-import { EventoProvider } from '@/context/useEventoContext'
+import { RecepcionProvider } from '@/context/useRecepcionContext'
 import { Metadata } from 'next'
 import BreadcrumbRouter from '@/components/base-ui/Breadcrumb'
 import { Card } from 'react-bootstrap'
@@ -17,7 +17,7 @@ export const metadata: Metadata = { title: 'Portal de recepción' }
 
 const RecepcionLayout = ({ children }: ChildrenType) => {
   return (
-      <EventoProvider>
+      <RecepcionProvider>
         <div className="wrapper">
           <TopBar />
           <LeftSideBar />
@@ -44,7 +44,7 @@ const RecepcionLayout = ({ children }: ChildrenType) => {
             <Footer />
           </div>
         </div>
-      </EventoProvider>
+      </RecepcionProvider>
       
   )
 }

@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import IconifyIcon from '@/wrappers/IconifyIcon';
 import AgregarConceptoFactura from './AgregarConceptoFactura';
 import { useQuery, gql, useMutation } from '@apollo/client';
@@ -46,7 +46,7 @@ const ConceptosFacturaTable = (props: {
     facturaId: string
 }) => {
 
-    const [conceptosFacturaData, setConceptosFactura] = React.useState<any[]>([]);
+    const [conceptosFacturaData, setConceptosFactura] = useState<any[]>([]);
 
     const {loading, error, data, refetch} = useQuery(GET_CONCEPTOS_FROM_FACTURA, {
         variables: {facturaId: props.facturaId}

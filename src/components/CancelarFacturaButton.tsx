@@ -5,7 +5,7 @@ import useModal from '@/hooks/useModal'
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button, Col, Row, Spinner } from "react-bootstrap";
 import { gql, useMutation } from '@apollo/client';
 import IconifyIcon from "@/wrappers/IconifyIcon";
-import { useEventoContext } from "@/context/useEventoContext";
+import { useRecepcionContext } from "@/context/useRecepcionContext";
 
 // ************** GraphQL queries ***********
 
@@ -30,7 +30,7 @@ const CancelarFacturaButton = (props: {
     const [cancelarFactura, {data, loading, error}] = useMutation(CANCEL_FACTURA);
 
     const {isOpen, className, toggleModal, openModalWithClass} = useModal();
-    const eventoContext = useEventoContext();
+    const eventoContext = useRecepcionContext();
 
     const [facturaData, setFacturaData] = useState<any>({});
 

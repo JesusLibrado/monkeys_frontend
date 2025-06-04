@@ -5,7 +5,7 @@ import useModal from '@/hooks/useModal'
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button, Col, Row, Spinner } from "react-bootstrap";
 import { gql, useMutation } from '@apollo/client';
 import SelectEstacion from "./SelectEstacion";
-import { useEventoContext } from "@/context/useEventoContext";
+import { useRecepcionContext } from "@/context/useRecepcionContext";
 
 // ************** GraphQL queries ***********
 
@@ -42,7 +42,7 @@ const EmpezarEventoButton = (props: {
     const [createFactura, {loading, error, data}] = useMutation(CREATE_FACTURA);
 
     const {isOpen, className, scroll, size, toggleModal, openModalWithSize} = useModal();
-    const eventoContext = useEventoContext();
+    const eventoContext = useRecepcionContext();
 
     const [nombreCliente, setNombreCliente] = useState('');
     const [selectedEstacionId, setSelectedEstacionId] = useState(props.estacionId);

@@ -7,7 +7,7 @@ import EstacionTab from './EstacionTab';
 
 import { useQuery, gql } from '@apollo/client';
 import { toNameCase } from '@/utils/strings';
-import { useEventoContext } from '@/context/useEventoContext';
+import { useRecepcionContext } from '@/context/useRecepcionContext';
 
 // ************** Gql queries ***********
 
@@ -33,7 +33,7 @@ const Estaciones = () => {
 
   const { loading, error, data, refetch } = useQuery(GET_ESTACIONES);
 
-  const eventoContext = useEventoContext();
+  const eventoContext = useRecepcionContext();
   
   const [estacionesData, setEstacionesData] = React.useState<any[]>([]);
 

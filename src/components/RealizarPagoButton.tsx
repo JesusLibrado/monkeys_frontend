@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import {gql, useMutation} from '@apollo/client';
 import { Spinner } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
+import { useRecepcionContext } from '@/context/useRecepcionContext';
 
 const SAVE_FACTURA = gql`
     mutation SaveFactura($facturaId: String!) {
@@ -23,12 +24,14 @@ const RealizarPagoButton = (props: {
 }) => {
 
     const router = useRouter();
+    const recepcionContext = useRecepcionContext();
 
     const [saveFactura, {data, loading, error}] = useMutation(SAVE_FACTURA);
 
     useEffect(()=>{
         if(data) {
             const factura = data.saveFactura;
+            recepcionContext.addFolioFactura(factura.folio, factura.id);
             redirect(factura.folio);
         }
     }, [data]);
@@ -42,7 +45,7 @@ const RealizarPagoButton = (props: {
             variables: {
                 facturaId: props.facturaId
             }
-        })
+        });
     }
 
     return (

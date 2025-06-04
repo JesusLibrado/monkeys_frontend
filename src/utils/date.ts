@@ -21,11 +21,11 @@ export const timeSince = (date: Date) => {
 
   const intervals = {
     year: 31536000,
-    month: 2592000,
-    day: 86400,
-    hour: 3600,
-    minute: 60,
-    second: 1,
+    mes: 2592000,
+    dia: 86400,
+    hora: 3600,
+    minutos: 60,
+    segundos: 1,
   }
 
   for (const [key, value] of Object.entries(intervals)) {
@@ -40,5 +40,5 @@ export const timeSince = (date: Date) => {
     intervalType += 's'
   }
 
-  return `${interval} ${intervalType} ago`
+  return `hace ${interval} ${intervalType}`
 }

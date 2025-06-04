@@ -9,7 +9,7 @@ import EmpezarEventoButton from '@/components/EmpezarEventoButton';
 import CancelarFacturaButton from '@/components/CancelarFacturaButton';
 import { useQuery, gql } from '@apollo/client';
 import { toNameCase } from '@/utils/strings';
-import { useEventoContext } from '@/context/useEventoContext';
+import { useRecepcionContext } from '@/context/useRecepcionContext';
 import { useRouter } from 'next/navigation';
 import RealizarPagoButton from '@/components/RealizarPagoButton';
 
@@ -49,7 +49,7 @@ const EstacionHeader = (props: {
         </span>
         {
             (!props.disponible)?
-            <span className="text-end badge me-1 badge-outline-danger rounded-pill">Ocupado</span>:
+            <span className="text-end badge me-1 badge-outline-danger rounded-pill">Ocupada</span>:
             <span className="text-end badge me-1 badge-outline-success rounded-pill">Disponible</span>
         }
     </div>
@@ -74,7 +74,7 @@ const EstacionTab = (props: {
         variables: {estacionId: props.estacionId}
     });
 
-    const eventoContext = useEventoContext();
+    const recepcionContext = useRecepcionContext();
 
     useEffect(()=>{
         if(data) {
@@ -84,11 +84,11 @@ const EstacionTab = (props: {
     }, [data]);
 
     useEffect(()=>{
-        if(eventoContext.isEventoUpdated) {
-          eventoContext.onNotificationReceived();
+        if(recepcionContext.isEventoUpdated) {
+          recepcionContext.onNotificationReceived();
           refetch();
         }
-      }, [eventoContext.isEventoUpdated]);
+      }, [recepcionContext.isEventoUpdated]);
 
     function toggleAgregarConceptoButton(event: any) {
         event.preventDefault();

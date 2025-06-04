@@ -11,7 +11,7 @@ import ThemeCustomizeToggle from './components/ThemeCustomizeToggle'
 import ThemeModeToggle from './components/ThemeModeToggle'
 import { usePathname } from 'next/navigation'
 import EmpezarEventoButton from '@/components/EmpezarEventoButton'
-import { EventoProvider } from '@/context/useEventoContext'
+import { EventoProvider } from '@/context/useRecepcionContext'
 
 const TopBar = () => {
 
