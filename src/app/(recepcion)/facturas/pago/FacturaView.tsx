@@ -1,21 +1,18 @@
 'use client'
 
 import logoDark from '@/assets/images/logo-dark.png'
-import { Row, Col, CardBody, Card } from "react-bootstrap";
+import { CardBody, Card, Col, Row } from "react-bootstrap";
 import Image from 'next/image'
-import { useSearchParams } from 'next/navigation';
-import { useRouter } from 'next/navigation';
-import {gql, useMutation, useQuery} from '@apollo/client';
+import {gql, useQuery} from '@apollo/client';
 import { Spinner } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
 import FacturaInfo  from './FacturaInfo';
-import { useRecepcionContext } from '@/context/useRecepcionContext';
 import { toSentenceCase } from '@/utils/change-casing';
-import ConceptosFactura from './ConceptosFactura';
+import ConceptosFacturaTable from '@/components/ConceptosFacturaTable';
 
-const GET_FACTURA_BY_FOLIO = gql`
-    query FacturaByFolio($folio: Int) {
-        facturaByFolio(folio: $folio) {
+const GET_FACTURA_BY_ID = gql`
+    query Factura($facturaId: String!) {
+        factura(id: $facturaId) {
             id
             evento {
                 id
@@ -41,7 +38,6 @@ const GET_FACTURA_BY_FOLIO = gql`
 const EstatusFacturaBadge = (props: {
     estatus: string
 }) => {
-
     switch(props.estatus) {
         case "CREADA":
             return (
@@ -58,7 +54,7 @@ const EstatusFacturaBadge = (props: {
         default:
             return (
                 <p className="placeholder-glow">
-                    <span className="placeholder col-12" />
+                    <span className="placeholder col-6" />
                 </p>
             );
     }
@@ -66,36 +62,24 @@ const EstatusFacturaBadge = (props: {
 }
 
 
-const FacturaViewer = (props: {
-    folio: number
+const FacturaView = (props: {
+    facturaId: string
 }) => {
 
     const [facturaData, setFacturaData] = useState<any>({});
 
-    const {data, loading, error} = useQuery(GET_FACTURA_BY_FOLIO, {
+    const {data, loading, error} = useQuery(GET_FACTURA_BY_ID, {
         variables: {
-            folio: props.folio
+            facturaId: props.facturaId
         }
     });
 
     useEffect(()=>{
         if(data) {
-            const factura = data.facturaByFolio;
+            const factura = data.factura;
             setFacturaData(factura);
         }
     }, [data]);
-
-    if(!facturaData) {
-        return (
-            <Card>
-                <CardBody>
-                    <div className="d-flex align-items-start justify-content-center mb-4">
-                        <h5>Factura no encontrada</h5>
-                    </div>
-                </CardBody>
-            </Card>
-        );
-    }
 
     if(loading) {
         return (
@@ -105,7 +89,7 @@ const FacturaViewer = (props: {
         )
     }
 
-    const formattedFolio = () => `${props.folio}`.padStart(5, "0");
+    const formattedFolio = () => `${facturaData.folio}`.padStart(5, "0");
     const nombreCliente = (): string => facturaData.evento?facturaData.evento.nombreCliente:'';
     const nombreEmpleado = (): string => {
         if(facturaData.evento?.estacion){
@@ -135,19 +119,13 @@ const FacturaViewer = (props: {
                 />
             </CardBody>
             <div className='p-2'>
-                
-                <ConceptosFactura facturaId={facturaData.id} />
+                <ConceptosFacturaTable facturaId={facturaData.id} />
                 <div>
                     <table className="table table-nowrap align-middle mb-0 ms-auto" style={{ width: 335 }}>
                         <tbody>
                         <tr>
                             <td className="fw-medium">Subtotal</td>
                             <td className="text-end">${facturaData.total}</td>
-                        </tr>
-                        <tr>
-                            <td className="fw-medium">Comisión <small className="text-muted">(Pago con tarjeta)</small>
-                            </td>
-                            <td className="text-end">-</td>
                         </tr>
                         <tr>
                             <td className="fw-medium">Descuento <small className="text-muted">(?)</small>
@@ -166,4 +144,4 @@ const FacturaViewer = (props: {
     )
 }
 
-export default FacturaViewer;
+export default FacturaView;

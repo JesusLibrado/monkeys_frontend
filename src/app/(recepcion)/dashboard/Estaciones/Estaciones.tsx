@@ -1,13 +1,13 @@
 'use client'
 
 import IconifyIcon from '@/wrappers/IconifyIcon';
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Card, CardBody, Col, Nav, NavItem, NavLink, Row, Spinner, TabContainer, TabContent, TabPane } from 'react-bootstrap';
 import EstacionTab from './EstacionTab';
 
 import { useQuery, gql } from '@apollo/client';
-import { toNameCase } from '@/utils/strings';
 import { useRecepcionContext } from '@/context/useRecepcionContext';
+import { toSentenceCase } from '@/utils/change-casing';
 
 // ************** Gql queries ***********
 
@@ -76,7 +76,7 @@ const Estaciones = () => {
       {(estacionesData || []).map((estacion, idx) => {
           let tabName = `Estación ${estacion.numero}`;
           if(estacion.empleado){
-            tabName = toNameCase(estacion.empleado.nombre)
+            tabName = toSentenceCase(estacion.empleado.nombre)
           }
           return (
           <NavItem as="li" role="presentation" key={idx}>

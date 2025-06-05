@@ -2,16 +2,15 @@
 
 import React, { useEffect, useState } from 'react';
 import { Spinner } from 'react-bootstrap';
-import ConceptosFacturaTable from '@/components/ConceptosFacturaTable/ConceptosFacturaTable';
+import ConceptosFacturaEditor from '@/components/ConceptosFacturaEditor';
 import IconifyIcon from '@/wrappers/IconifyIcon';
 import CrearConceptoFacturaForm from '@/components/CrearConceptoFacturaForm';
 import EmpezarEventoButton from '@/components/EmpezarEventoButton';
 import CancelarFacturaButton from '@/components/CancelarFacturaButton';
 import { useQuery, gql } from '@apollo/client';
-import { toNameCase } from '@/utils/strings';
 import { useRecepcionContext } from '@/context/useRecepcionContext';
-import { useRouter } from 'next/navigation';
 import RealizarPagoButton from '@/components/RealizarPagoButton';
+import { toSentenceCase } from '@/utils/change-casing';
 
 
 // ************** GraphQL queries ***********
@@ -134,11 +133,11 @@ const EstacionTab = (props: {
             <div className="d-flex align-items-start justify-content-between mb-4">
                 <div>
                     <h5 className="fw-bold mb-2 fs-14"> Nombre del cliente: </h5>
-                    <h6 className="fs-14 mb-2">{toNameCase(eventoData.nombreCliente??'')}</h6>
+                    <h6 className="fs-14 mb-2">{toSentenceCase(eventoData.nombreCliente??'')}</h6>
                 </div>
                 <div>
                     <h5 className="fw-bold mb-2 fs-14"> Atendido por: </h5>
-                    <h6 className="fs-14 mb-2">{toNameCase(props.empleado.nombre)}</h6>
+                    <h6 className="fs-14 mb-2">{toSentenceCase(props.empleado.nombre)}</h6>
                 </div>
             </div>
             <div className='mb-4 d-flex flex-row-reverse gap-2'>
@@ -153,7 +152,7 @@ const EstacionTab = (props: {
             </div>
             {
                 !(agregarConceptoClicked)?
-                <ConceptosFacturaTable facturaId={eventoData.factura?.id} />
+                <ConceptosFacturaEditor facturaId={eventoData.factura?.id} />
                 :
                 <CrearConceptoFacturaForm facturaId={eventoData.factura?.id} onCloseClicked={toggleAgregarConceptoButton}/>
             }

@@ -5,7 +5,7 @@ import IconifyIcon from '@/wrappers/IconifyIcon';
 import AgregarConceptoFactura from './AgregarConceptoFactura';
 import { useQuery, gql, useMutation } from '@apollo/client';
 import { Spinner } from 'react-bootstrap';
-import { toNameCase } from '@/utils/strings';
+import { toSentenceCase } from '@/utils/change-casing';
 
 // ************** Gql***********
 
@@ -40,9 +40,9 @@ const REMOVE_CONCEPTO_FROM_FACTURA = gql`
 `;
 
 
-// ************** Exported component --- ConceptosFacturaTable ***********
+// ************** Exported component --- ConceptosFacturaEditor ***********
 
-const ConceptosFacturaTable = (props: {
+const ConceptosFacturaEditor = (props: {
     facturaId: string
 }) => {
 
@@ -111,7 +111,7 @@ const ConceptosFacturaTable = (props: {
                                 let titulo = `${concepto.servicio?.categoria} ${concepto.servicio?.nombre}`
                                 let precio = concepto.servicio?.precio;
                                 if(concepto.producto && Object.keys(concepto.producto).length > 0){
-                                    titulo = `${concepto.producto?.nombre} ${toNameCase(concepto.producto?.marca)}`
+                                    titulo = `${concepto.producto?.nombre} ${toSentenceCase(concepto.producto?.marca)}`
                                     precio = concepto.producto.precioPublico;
                                 }
                                 return (
@@ -155,4 +155,4 @@ const ConceptosFacturaTable = (props: {
     );
 }
 
-export default ConceptosFacturaTable;
+export default ConceptosFacturaEditor;

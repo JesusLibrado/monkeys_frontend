@@ -29,7 +29,7 @@ const GET_CONCEPTOS_FROM_FACTURA = gql`
     }
 `;
 
-const ConceptosFactura = (props: {
+const ConceptosFacturaTable = (props: {
     facturaId: string
 }) => {
 
@@ -103,4 +103,4 @@ const ConceptosFactura = (props: {
     )
 }
 
-export default ConceptosFactura;
+export default ConceptosFacturaTable;

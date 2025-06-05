@@ -1,8 +1,8 @@
 import { Spinner } from 'react-bootstrap';
-import { toNameCase } from '@/utils/strings';
 import { useQuery, gql } from '@apollo/client';
 import Select from 'react-select';
 import React, { useEffect } from 'react';
+import { toSentenceCase } from '@/utils/change-casing';
 
 
 // ************** Gql queries ***********
@@ -58,7 +58,7 @@ const getSelectOptions = (serviciosByCategoria: any[], productos: any[]) => {
             label: categoriaServicio,
             options: servicios.map((servicio: any)=>({
                     value: servicio.id,
-                    label: `${toNameCase(servicio.nombre)}`
+                    label: `${toSentenceCase(servicio.nombre)}`
                 })
             )
         })
@@ -67,7 +67,7 @@ const getSelectOptions = (serviciosByCategoria: any[], productos: any[]) => {
         label: 'PRODUCTOS',
         options: productos.map(producto=>({
             value: producto.id,
-            label: `${toNameCase(producto.nombre)} ${producto.marca}`
+            label: `${toSentenceCase(producto.nombre)} ${producto.marca}`
         }))
     }
     return [...serviciosGrouped, productosGrouped];

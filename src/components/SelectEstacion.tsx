@@ -4,7 +4,7 @@ import React, {useEffect, useState} from "react";
 import { Col, Row, Spinner } from "react-bootstrap";
 import { useQuery, gql} from '@apollo/client';
 import Select from "react-select";
-import { toNameCase } from "@/utils/strings";
+import { toSentenceCase } from "@/utils/change-casing";
 
 // ************** GraphQL queries ***********
 
@@ -35,7 +35,7 @@ const getSelectEmpleadoOptions = (estaciones: any[]) => estaciones.map(
         let empleado = estacion.empleado;
         return {
             value: empleado.id,
-            label: toNameCase(empleado.nombre)
+            label: toSentenceCase(empleado.nombre)
         }
     }
 )
