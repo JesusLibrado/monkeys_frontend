@@ -5,6 +5,7 @@ import {gql, useMutation} from '@apollo/client';
 import { Spinner } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
 import { useRecepcionContext } from '@/context/useRecepcionContext';
+import IconifyIcon from '@/wrappers/IconifyIcon';
 
 const SAVE_FACTURA = gql`
     mutation SaveFactura($facturaId: String!) {
@@ -19,7 +20,7 @@ const SAVE_FACTURA = gql`
     }
 `;
 
-const RealizarPagoButton = (props: {
+const GuardarFacturaButton = (props: {
     facturaId: string
 }) => {
 
@@ -58,10 +59,14 @@ const RealizarPagoButton = (props: {
                 loading?
                     <Spinner />
                     :
-                    'Realizar pago'
+                    <>
+                        Continuar a pago
+                        <IconifyIcon icon='tabler:chevron-right' className="fs-16" />
+                        
+                    </>
             }
         </button>
     )
 }
 
-export default RealizarPagoButton;
+export default GuardarFacturaButton;

@@ -1,3 +1,3 @@
 
 
-export const COMISION_PAGO_CON_TARJETA = 3;
+export const COMISION_PAGO_CON_TARJETA = 10;

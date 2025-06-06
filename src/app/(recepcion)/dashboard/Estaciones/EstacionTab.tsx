@@ -9,7 +9,7 @@ import EmpezarEventoButton from '@/components/EmpezarEventoButton';
 import CancelarFacturaButton from '@/components/CancelarFacturaButton';
 import { useQuery, gql } from '@apollo/client';
 import { useRecepcionContext } from '@/context/useRecepcionContext';
-import RealizarPagoButton from '@/components/RealizarPagoButton';
+import GuardarFacturaButton from '@/components/GuardarFacturaButton';
 import { toSentenceCase } from '@/utils/change-casing';
 
 
@@ -161,7 +161,7 @@ const EstacionTab = (props: {
                     <CancelarFacturaButton 
                         facturaId={eventoData.factura?.id}
                     />
-                    <RealizarPagoButton facturaId={eventoData.factura?.id}/>
+                    <GuardarFacturaButton facturaId={eventoData.factura?.id}/>
                 </div>
             </div>
         </div>
