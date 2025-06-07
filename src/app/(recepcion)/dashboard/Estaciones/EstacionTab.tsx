@@ -154,7 +154,10 @@ const EstacionTab = (props: {
                 !(agregarConceptoClicked)?
                 <ConceptosFacturaEditor facturaId={eventoData.factura?.id} />
                 :
-                <CrearConceptoFacturaForm facturaId={eventoData.factura?.id} onCloseClicked={toggleAgregarConceptoButton}/>
+                <CrearConceptoFacturaForm 
+                    facturaId={eventoData.factura?.id} 
+                    onCloseClicked={toggleAgregarConceptoButton}
+                />
             }
             <div className="d-print-none mb-5">
                 <div className="d-flex justify-content-center gap-2">

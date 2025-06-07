@@ -67,7 +67,6 @@ const ConceptosFacturaEditor = (props: {
         }
     }, [data, deletedConcepto, props.facturaId]);
 
-
     if(loading || removing){
         return (
           <div className="d-flex justify-content-center mb-4">
