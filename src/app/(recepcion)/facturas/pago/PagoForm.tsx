@@ -2,10 +2,8 @@ import ComponentContainerCard from "@/components/base-ui/ComponentContainerCard"
 import MetodoPagoSelector from "@/components/MetodoPagoSelector";
 import { useEffect, useState } from "react";
 import { Button, Col, Row, Spinner } from "react-bootstrap";
-import { COMISION_PAGO_CON_TARJETA } from "@/types/pago";
 import IconifyIcon from "@/wrappers/IconifyIcon";
 import { gql, useMutation } from "@apollo/client";
-import { useRouter } from "next/navigation";
 
 const REALIZAR_PAGO = gql`
     mutation RealizarPago($realizarPagoInput: RealizarPagoInput!) {
@@ -29,12 +27,12 @@ const PagoForm = (props: {
     const {total, facturaId} = props;
     const [selectedMetodoPago, setSelectedMetodoPago] = useState("");
     const [montoRecibido, setMontoRecibido] = useState(0);
-    const router = useRouter();
+    const [comisionPagoTarjeta, setComisionPagoTarjeta] = useState(0);
 
     const [realizarPago, {data, loading, error}] = useMutation(REALIZAR_PAGO);
 
-    const montoPorCobrar = selectedMetodoPago.includes("TARJETA")?total+COMISION_PAGO_CON_TARJETA:total;
-
+    const montoPorCobrar = selectedMetodoPago.includes("TARJETA")?total+comisionPagoTarjeta:total;
+    const montoPorDevolver = montoRecibido>total?montoRecibido-total:0;
     const disabledButton = selectedMetodoPago==="" || (selectedMetodoPago.includes("EFECTIVO") && montoRecibido<montoPorCobrar)
     
     useEffect(()=> {
@@ -44,16 +42,24 @@ const PagoForm = (props: {
     }, [data]);
 
     function pagar() {
+        let recibido = montoRecibido;
+        let devuelto = 0;
+        if(selectedMetodoPago === "TRANSFERENCIA" || selectedMetodoPago.includes("TARJETA")){
+            recibido = montoPorCobrar;
+        } else {
+            devuelto = montoPorDevolver;
+        }
         realizarPago({
             variables: {
                 realizarPagoInput: {
                     facturaId: facturaId,
-                    montoRecibido: montoRecibido,
+                    montoRecibido: recibido,
                     metodoPago: selectedMetodoPago,
-                    montoDevuelto: montoRecibido-props.total
+                    montoDevuelto: devuelto,
+                    comisionPagoTarjeta: comisionPagoTarjeta
                 }
             }
-        })
+        });
     }
     
     return (
@@ -69,7 +75,15 @@ const PagoForm = (props: {
                                  selectedMetodoPago.includes("TARJETA") && (
                                     <tr>
                                         <td className="fw-medium">Comisión pago con tarjeta</td>
-                                        <td className="text-end">${COMISION_PAGO_CON_TARJETA}</td>
+                                        <td className="input-group p-0">
+                                            <span className="input-group-text">$</span>
+                                            <input type="number" 
+                                                style={{width: 10}}
+                                                className="form-control"
+                                                onChange={(e)=>setComisionPagoTarjeta(Number(e.target.value))}
+                                                placeholder={`10`}
+                                            />
+                                        </td>
                                     </tr>
                                  )
                             }
@@ -94,7 +108,7 @@ const PagoForm = (props: {
                                         </tr>
                                         <tr>
                                             <td className="fw-medium">Cambio</td>
-                                            <td className="text-end">${montoRecibido>total?montoRecibido-total:0}</td>
+                                            <td className="text-end">${}</td>
                                         </tr>
                                     </>
                                 )
