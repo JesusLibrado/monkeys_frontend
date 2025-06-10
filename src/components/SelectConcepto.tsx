@@ -21,7 +21,7 @@ const GET_AVAILABLE_PRODUCTOS = gql`
 
 const GET_AVAILABLE_SERVICIOS = gql`
     query Servicios {
-        servicios {
+        availableServicios {
             id
             nombre
             categoria
@@ -102,9 +102,9 @@ const SelectConcepto = (props: {
             setProductos(productos);
         }
         if(serviciosData) {
-            servicios = serviciosData.servicios;
+            servicios = serviciosData.availableServicios;
             setServicios(servicios);
-            servicios = serviciosByCategoria(serviciosData.servicios);
+            servicios = serviciosByCategoria(serviciosData.availableServicios);
         }
         if(serviciosData || productosData){
             setSelectOptions(getSelectOptions(servicios, productos));
