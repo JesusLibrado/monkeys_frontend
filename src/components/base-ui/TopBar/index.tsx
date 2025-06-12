@@ -1,38 +1,37 @@
-'use client'
-import LogoBox from '@/components/base-ui/HorizontalNav/LogoBox'
-import IconifyIcon from '@/wrappers/IconifyIcon'
-import { useEffect, useRef, useState } from 'react'
+"use client";
+import LogoBox from "@/components/base-ui/HorizontalNav/LogoBox";
+import IconifyIcon from "@/wrappers/IconifyIcon";
+import { useEffect, useRef, useState } from "react";
 // import { useNavigate } from 'react-router-dom'
-import LeftSideBarToggle from './components/LeftSideBarToggle'
-import Notifications from './components/Notifications'
-import ProfileDropdown from './components/ProfileDropdown'
-import SearchBox from './components/SearchBox'
-import ThemeCustomizeToggle from './components/ThemeCustomizeToggle'
-import ThemeModeToggle from './components/ThemeModeToggle'
-import { usePathname } from 'next/navigation'
-import EmpezarEventoButton from '@/components/EmpezarEventoButton'
+import LeftSideBarToggle from "./components/LeftSideBarToggle";
+import Notifications from "./components/Notifications";
+import ProfileDropdown from "./components/ProfileDropdown";
+import SearchBox from "./components/SearchBox";
+import ThemeCustomizeToggle from "./components/ThemeCustomizeToggle";
+import ThemeModeToggle from "./components/ThemeModeToggle";
+import { usePathname } from "next/navigation";
+import EmpezarEventoButton from "@/components/EmpezarEventoButton";
 
 const TopBar = () => {
-
   const navbarRef = useRef<HTMLDivElement | null>(null);
 
-
   useEffect(() => {
-    window.addEventListener('scroll',
-      () => {
-        if (navbarRef.current) navbarRef.current.classList.toggle('topbar-active', window.scrollY > 100)
-      }
-    )
-  }, [])
+    window.addEventListener("scroll", () => {
+      if (navbarRef.current)
+        navbarRef.current.classList.toggle(
+          "topbar-active",
+          window.scrollY > 100,
+        );
+    });
+  }, []);
 
   const pathname = usePathname();
 
-  const [title, setTitle] = useState<string>('Welcome')
+  const [title, setTitle] = useState<string>("Welcome");
 
   useEffect(() => {
-    setTitle(document.title.split("|")[0])
-
-  }, [pathname])
+    setTitle(document.title.split("|")[0]);
+  }, [pathname]);
 
   return (
     <header ref={navbarRef} className={`app-topbar `} id="header">
@@ -49,22 +48,19 @@ const TopBar = () => {
         <div className="d-flex align-items-center gap-2">
           {/* <SearchBox /> */}
           {/* <Notifications /> */}
-          <EmpezarEventoButton 
-              className={'btn-soft-primary rounded-pill'} 
-              label={'Crear evento'}
+          <EmpezarEventoButton
+            className={"btn-soft-primary rounded-pill"}
+            label={"Crear evento"}
           />
-          <div className="topbar-item d-flex d-xs-none">  
+          <div className="topbar-item d-flex d-xs-none">
             <ThemeCustomizeToggle />
             <ThemeModeToggle />
           </div>
           <ProfileDropdown />
-
-
-
         </div>
       </div>
     </header>
-  )
-}
+  );
+};
 
-export default TopBar
+export default TopBar;

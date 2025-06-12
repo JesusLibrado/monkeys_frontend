@@ -1,17 +1,16 @@
 import AppProvidersWrapper from "@/wrappers/AppProvidersWrapper";
 import type { Metadata } from "next";
 
-import '@/assets/scss/app.scss'
+import "@/assets/scss/app.scss";
 // import '@/assets/scss/icons'
 import { DEFAULT_PAGE_TITLE } from "@/context/constants";
 
 export const metadata: Metadata = {
   title: {
-    template: '%s | Sistema administrativo',
+    template: "%s | Sistema administrativo",
     default: DEFAULT_PAGE_TITLE,
   },
-}
-
+};
 
 export default function RootLayout({
   children,

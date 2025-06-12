@@ -4,21 +4,21 @@
 
 // Breadcrumb item arrow
 .breadcrumb-item {
-    a {
-        color: var(--#{$prefix}body-color);
+  a {
+    color: var(--#{$prefix}body-color);
 
-        &:hover {
-            color: var(--#{$prefix}primary);
-        }
+    &:hover {
+      color: var(--#{$prefix}primary);
     }
-    +.breadcrumb-item {
-        &::before {
-            font-family: "tabler-icons";
-        }
+  }
+  + .breadcrumb-item {
+    &::before {
+      font-family: "tabler-icons";
     }
+  }
 }
 
 .breadcrumb {
-    margin-bottom: 0;
-    padding: 0.50rem 0;
+  margin-bottom: 0;
+  padding: 0.5rem 0;
 }

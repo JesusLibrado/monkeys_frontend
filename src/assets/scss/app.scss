@@ -1,15 +1,14 @@
-
 // Core files
 @import "bootstrap/scss/functions";
 @import "bootstrap/scss/variables";
 
 @import "choices.js/public/assets/styles/choices.css";
 
-@import 'leaflet/dist/leaflet.css';
+@import "leaflet/dist/leaflet.css";
 
 // @import "jsvectormap/dist/css/jsvectormap.css";
 
-@import 'gridjs/dist/theme/mermaid.css';
+@import "gridjs/dist/theme/mermaid.css";
 
 @import "nouislider/distribute/nouislider.css";
 
@@ -28,7 +27,6 @@
 @import "structure/layout";
 @import "structure/footer";
 @import "structure/customizer";
-
 
 // Components
 @import "components/utilities";
@@ -88,7 +86,6 @@
 // @import "plugins/leaflet-maps";
 // @import "plugins/sweetalert2";
 // @import "plugins/rangeslider";
-
 
 // // icon
 

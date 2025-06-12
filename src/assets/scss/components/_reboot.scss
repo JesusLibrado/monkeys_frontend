@@ -3,34 +3,34 @@
 //
 
 html {
-    position: relative;
-    min-height: 100%;
-    // direction: ltr;
+  position: relative;
+  min-height: 100%;
+  // direction: ltr;
 }
 
 body {
-    overflow-x: hidden;
+  overflow-x: hidden;
 }
 
 ::selection {
-    color: $primary;
-    background: rgba($primary, 0.15);
+  color: $primary;
+  background: rgba($primary, 0.15);
 }
 
 button,
 a {
-    outline: none !important;
+  outline: none !important;
 }
 
 // Forms
 
 label {
-    font-weight: $font-weight-medium;
+  font-weight: $font-weight-medium;
 }
 
 b,
 strong {
-    font-weight: $font-weight-semibold;
+  font-weight: $font-weight-semibold;
 }
 
 h1,
@@ -39,43 +39,39 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: $font-family-secondary;
+  font-family: $font-family-secondary;
 }
-
 
 // border style
 .border-dashed {
-    --#{$prefix}border-style: dashed;
+  --#{$prefix}border-style: dashed;
 }
 
 // Custom Link
 .link-reset {
-    color: inherit;
-    transition: $transition-base;
+  color: inherit;
+  transition: $transition-base;
 
-    &:hover {
-        color: var(--#{$prefix}primary);
-    }
+  &:hover {
+    color: var(--#{$prefix}primary);
+  }
 }
-
 
 .page-container {
-    @extend .container-fluid;
+  @extend .container-fluid;
 }
-
 
 // .page-container {
 //     max-width: 90%;
-//     @extend .container;  
+//     @extend .container;
 // }
 
-
 html[data-bs-theme="dark"] {
-    .text-bg-dark {
-        color: var(--#{$prefix}light) !important;
-    }
+  .text-bg-dark {
+    color: var(--#{$prefix}light) !important;
+  }
 
-    .text-bg-light {
-        color: var(--#{$prefix}dark) !important;
-    }
+  .text-bg-light {
+    color: var(--#{$prefix}dark) !important;
+  }
 }

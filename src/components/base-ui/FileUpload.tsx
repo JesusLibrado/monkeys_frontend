@@ -1,4 +1,4 @@
-import { Card, CardBody, CardHeader, CardTitle } from 'react-bootstrap'
+import { Card, CardBody, CardHeader, CardTitle } from "react-bootstrap";
 // import DropzoneFormInput from './form/DropzoneFormInput'
 
 const FileUpload = ({ title }: { title: string }) => {
@@ -13,7 +13,7 @@ const FileUpload = ({ title }: { title: string }) => {
         /> */}
       </CardBody>
     </>
-  )
-}
+  );
+};
 
-export default FileUpload
+export default FileUpload;
