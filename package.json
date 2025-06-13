@@ -15,6 +15,7 @@
     "apexcharts": "^4.5.0",
     "bootstrap": "^5.3.5",
     "choices.js": "^11.1.0",
+    "dayjs": "^1.11.13",
     "formik": "^2.4.6",
     "graphql": "^16.11.0",
     "gridjs-react": "^6.1.1",

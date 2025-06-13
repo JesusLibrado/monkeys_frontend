@@ -106,7 +106,7 @@ const FacturaView = (props: { facturaId: string }) => {
       <CardBody>
         <div className="d-flex align-items-start justify-content-between mb-4">
           <div>
-            <Image src={logo} alt="dark logo" height={60} width={180} />
+            <Image src={logo} alt="dark logo" height={70} width={190} />
           </div>
           <div className="text-end">
             <EstatusFacturaBadge estatus={facturaData.estatus} />

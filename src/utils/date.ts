@@ -1,3 +1,5 @@
+import * as dayjs from "dayjs";
+
 type AddOrSubtractFromDate = (
   days: number,
   add?: boolean,
@@ -55,4 +57,8 @@ export const timeSince = (date: Date) => {
   }
 
   return `hace ${interval} ${intervalType}`;
+};
+
+export const formatDate = (date: string, format: string) => {
+  return dayjs(date).format(format);
 };

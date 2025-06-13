@@ -1,7 +1,6 @@
 import Image from "next/image";
 import React from "react";
 import logoSm from "@/assets/images/logo-sm.png";
-import logo from "@/assets/images/logo.png";
 import logoDark from "@/assets/images/logo-dark.png";
 
 const LogoBox = () => {

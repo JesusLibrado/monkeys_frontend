@@ -130,14 +130,14 @@ const EstacionTab = (props: {
       <EstacionHeader numero={props.numero} disponible={false} />
       <div className="d-flex align-items-start justify-content-between mb-4">
         <div>
-          <h5 className="fw-bold mb-2 fs-14"> Nombre del cliente: </h5>
-          <h6 className="fs-14 mb-2">
+          <h5 className="mb-2 fs-14"> Nombre del cliente: </h5>
+          <h6 className="fs-14 mb-2 fw-bold">
             {toSentenceCase(eventoData.nombreCliente ?? "")}
           </h6>
         </div>
         <div>
-          <h5 className="fw-bold mb-2 fs-14"> Atendido por: </h5>
-          <h6 className="fs-14 mb-2">
+          <h5 className="mb-2 fs-14"> Atendido por: </h5>
+          <h6 className="fs-14 mb-2 fw-bold">
             {toSentenceCase(props.empleado.nombre)}
           </h6>
         </div>
