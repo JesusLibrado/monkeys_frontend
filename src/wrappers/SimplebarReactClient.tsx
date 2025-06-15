@@ -1,5 +1,6 @@
 "use client";
 import type SimpleBarCore from "simplebar-core";
+// https://stackoverflow.com/questions/76211877/the-xxxx-library-may-need-to-update-its-package-json-or-typings-ts
 import SimpleBar, { type Props } from "simplebar-react";
 import { ChildrenType } from "../types/component-props";
 

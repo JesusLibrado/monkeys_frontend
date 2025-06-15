@@ -15,7 +15,10 @@ export const kebabToTitleCase = (value: string) => {
 };
 
 export const toSentenceCase = (value: string) => {
-  return value.charAt(0).toUpperCase() + value.toLowerCase().slice(1);
+  return value
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.toLowerCase().slice(1))
+    .join(" ");
 };
 
 export const toAlphaNumber = (n: number) => {

@@ -52,7 +52,6 @@ const Estaciones = () => {
     if (data) {
       let estaciones = data.estaciones;
       setEstacionesData(estaciones);
-      console.log(estaciones);
     }
   }, [data]);
 

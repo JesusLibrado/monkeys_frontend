@@ -123,7 +123,7 @@ const EmpezarEventoButton = (props: {
                   type="text"
                   className="form-control"
                   placeholder="Juan Javier"
-                  onChange={(e) => setNombreCliente(e.target.value)}
+                  onChange={(e) => setNombreCliente(e.target.value.trim())}
                 />
               </Col>
             </Row>

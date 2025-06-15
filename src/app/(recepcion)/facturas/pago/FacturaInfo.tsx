@@ -1,3 +1,4 @@
+import { toSentenceCase } from "@/utils/change-casing";
 import { formatDate } from "@/utils/date";
 import { Row, Col } from "react-bootstrap";
 
@@ -12,7 +13,9 @@ const FacturaInfo = (props: {
       <Col md={5}>
         <div className="mb-4">
           <h5 className="mb-2 fs-14"> Nombre del cliente: </h5>
-          <h6 className="fw-bold fs-14 mb-2">{props.nombreCliente}</h6>
+          <h6 className="fw-bold fs-14 mb-2">
+            {toSentenceCase(props.nombreCliente)}
+          </h6>
         </div>
         <div>
           <h5 className="mb-2 fs-14"> Fecha de creación: </h5>
@@ -24,7 +27,9 @@ const FacturaInfo = (props: {
       <Col md={5}>
         <div className="mb-4">
           <h5 className="mb-2 fs-14"> Atendido por: </h5>
-          <h6 className="fw-bold fs-14 mb-2">{props.nombreEmpleado}</h6>
+          <h6 className="fw-bold fs-14 mb-2">
+            {toSentenceCase(props.nombreEmpleado)}
+          </h6>
         </div>
         <div>
           <h5 className="mb-2 fs-14"> Última actualización: </h5>
