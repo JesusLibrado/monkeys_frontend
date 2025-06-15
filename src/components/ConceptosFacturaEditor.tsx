@@ -96,7 +96,7 @@ const ConceptosFacturaEditor = (props: { facturaId: string }) => {
 
   return (
     <div className="mb-5">
-      <div className={"table-responsive"}>
+      <div>
         <table className="table text-center table-nowrap align-middle mb-0 table-sm">
           <thead>
             <tr className="bg-light bg-opacity-50">
